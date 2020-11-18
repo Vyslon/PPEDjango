@@ -10,7 +10,7 @@ class Visiteur(models.Model):
     prenom = models.CharField(max_length=30, null=True)
     adresse = models.CharField(max_length=30, null=True)
     code_postal = models.CharField(max_length=5, null=True)
-    date_embauhe = models.DateField(null=True)
+    date_embauche = models.DateField(null=True)
 
 
 class FicheFrais(models.Model):

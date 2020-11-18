@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
+import ppefrais
+from ppefrais import views
+
 
 urlpatterns = [
+    path('', views.index, name="index"),
+    path('gsb/', include(('ppefrais.urls', 'ppefrais'), namespace='ppefrais')),
     path('admin/', admin.site.urls),
 ]

@@ -1,0 +1,31 @@
+{% extends 'ppefrais/base.html' %}
+
+{% block content %}
+
+<form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <br />
+
+      <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
+      {{ form.username }}
+        <br />
+
+      <label for="{{ form.password.id_for_label }}">Mot de passe</label>
+      {{ form.password }}
+        <br />
+
+        {% for message in messages %}
+
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+
+                        {{ message }}
+
+                    </div>
+        {% endfor %}
+
+        <button type="submit">Connexion</button>
+
+      </form>
+
+{% endblock %}

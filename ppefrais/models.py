@@ -35,6 +35,7 @@ class LigneFraisHorsForfait(models.Model):
     mois = models.CharField(max_length=6, null=False)
     frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
     quantite = models.PositiveIntegerField()
+    bla
 
     class Meta:
         unique_together = (('visiteur','mois','frais_forfait'),)

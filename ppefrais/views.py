@@ -4,8 +4,11 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import AuthenticationForm
+from .models import Utilisateur
+
+
 
 # Create your views here.
 def index(request):
@@ -34,5 +37,17 @@ def index(request):
     }
     return render(request, 'ppefrais/connect.html', context)
 
+
 def home(request):
-    return HttpResponse("oui")
+    if request.user.is_authenticated:
+        context = {
+            'utilisateur': Utilisateur.objects.filter(user=request.user.id)[0]
+        }
+        return render(request, 'ppefrais/home.html', context)
+    else:
+        return redirect('ppefrais:index')
+
+
+def disconnect(request):
+    logout(request)
+    return redirect('ppefrais:index')

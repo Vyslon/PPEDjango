@@ -6,7 +6,15 @@
 </head>
 <body>
 
+{% if request.user.is_authenticated %}
+<a href="{% url 'ppefrais:disconnect' %}">Déconnexion</a>
+{% endif %}
+
 {% block content %}
+
+
+
+<h1>Un test</h1>
 
 {% endblock %}
 

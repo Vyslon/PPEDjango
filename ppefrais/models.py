@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -45,7 +47,7 @@ class Utilisateur(models.Model):
         choices=Statut.choices,
         default=Statut.CPT
     )
-    adresse = models.CharField(max_length=30, null=True)
-    code_postal = models.CharField(max_length=5, null=True)
-    date_embauche = models.DateField(null=True)
+    adresse = models.CharField(max_length=30, null=True, blank=True)
+    code_postal = models.CharField(max_length=5, null=True, blank=True)
+    date_embauche = models.DateField(null=True, blank=True, default=datetime.datetime.now())
 

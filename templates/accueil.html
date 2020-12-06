@@ -9,7 +9,17 @@
             <div class="container">
                 <div class="columns is-centered">
                     <div class="column" style="max-width: 376px;">
-                        <h1 class="title">Bienvenue, {{ user.username }} !</h1>
+                        <div class="box has-text-centered">
+                            <h1 class="title">Connexion réussie.</h1>
+                            {% if user.get_full_name %}
+                                <h2 class="subtitle">Bienvenue, {{ user.get_full_name }}
+                                    !</h2>
+                            {% else %}
+                                 <h2 class="subtitle">Bienvenue, {{ user.username }}
+                            {% endif %}
+                            <hr>
+                            <p>Continuez votre visite sur notre<br>merveilleux site.</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -38,7 +38,6 @@ INSTALLED_APPS = [
 
     'ppefrais.apps.PpefraisConfig',
     'widget_tweaks',
-
 ]
 
 MIDDLEWARE = [
@@ -56,7 +55,7 @@ ROOT_URLCONF = 'djangoProject1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR.joinpath('templates')]
+        'DIRS': [str(BASE_DIR.joinpath('templates'))]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -123,3 +122,11 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR.joinpath('staticfiles')
+
+# Auth model
+AUTH_USER_MODEL = 'ppefrais.CustomUser'
+
+# URLs de connexion / déconnexion
+LOGIN_REDIRECT_URL = 'accueil'
+LOGOUT_REDIRECT_URL = 'accueil'
+

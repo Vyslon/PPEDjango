@@ -18,18 +18,16 @@
     <!-- Scripts customs -->
     <script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
 </head>
-<body>
 
 <body class="has-navbar-fixed-top">
 
 <!-- Navbar -->
-{% include 'ppefrais/navbar.html' %}
+{% include 'navbar.html' %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
 
 </body>
 
-{% block content %}
-
-{% endblock %}
-
-</body>
 </html>

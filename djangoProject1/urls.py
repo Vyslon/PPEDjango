@@ -16,12 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
-import ppefrais
-from ppefrais import views
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.views.generic.base import TemplateView
 
 
 urlpatterns = [
-    path('', views.index, name="index"),
-    path('gsb/', include(('ppefrais.urls', 'ppefrais'), namespace='ppefrais')),
+    path('', login_required(TemplateView.as_view(template_name='accueil.html'), login_url='login'), name='accueil'),
     path('admin/', admin.site.urls),
+    path('gsb/', include('ppefrais.urls')),
+    path('gsb/', include('django.contrib.auth.urls')),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

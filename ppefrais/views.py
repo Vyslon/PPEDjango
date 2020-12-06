@@ -23,7 +23,7 @@ def index(request):
                 return redirect('ppefrais:home')
 
             context = {'form': form, 'errors': form.errors.items()}
-            messages.error(request, 'username or password not correct')
+            messages.error(request, "Le nom d'utilisateur ou le mot de passe est incorrect.")
             return render(request, 'ppefrais/connect.html', context)
 
     else:

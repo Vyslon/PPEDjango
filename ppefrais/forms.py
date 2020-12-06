@@ -3,23 +3,15 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser
 
 
-class AuthenticationForm(forms.Form):
-    """
-    Forms for authentication, used by "connect" view
-    """
-    username = forms.CharField(label="Nom d'utilisateur", max_length=150)
-    password = forms.CharField(label="Mot de passe", max_length=50, widget=forms.PasswordInput)
-
-
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('statut', 'adresse', 'code_postal', 'date_embauche')
 
 
-class CustomUserChangeForm(UserChangeForm):
+class CustomUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('statut', 'adresse', 'code_postal', 'date_embauche')

@@ -25,7 +25,7 @@ SECRET_KEY = 'hm$zugm(sunw4=w6l@2^_6&u!7y6h4wuel#ah4%mh!k#65=l8u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'ppefrais.apps.PpefraisConfig',
+
 ]
 
 MIDDLEWARE = [

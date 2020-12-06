@@ -2,30 +2,74 @@
 
 {% block content %}
 
-<form action="{% url 'index' %}" method="post">
-        {% csrf_token %}
-        <br />
 
-      <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
-      {{ form.username }}
-        <br />
+    <section class="hero is-fullheight-with-navbar">
 
-      <label for="{{ form.password.id_for_label }}">Mot de passe</label>
-      {{ form.password }}
-        <br />
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column" style="max-width: 376px;">
+                        <div class="panel">
+                            <p class="panel-heading">Connexion</p>
+                            <div class="panel-block">
+                                <form class="control my-2" action="{% url 'index' %}" method="post" novalidate>
+                                    {% csrf_token %}
+                                    {% load widget_tweaks %}
 
-        {% for message in messages %}
+                                    <!-- Champ username -->
+                                    <div class="field">
+                                        <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
+                                        <div class="control has-icons-left has-icons-right">
+                                            {% if form.username.errors %}
+                                                {% render_field form.username class="input is-danger" placeholder="Nom dutilisateur" %}
+                                                <span class="icon is-small is-right"><i
+                                                        class="fas fa-exclamation-triangle"></i></span>
+                                            {% else %}
+                                                {% render_field form.username class="input" placeholder="Nom dutilisateur" %}
+                                                <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i></span>
+                                            {% endif %}
+                                        </div>
+                                        {% for error in form.username.errors %}
+                                            <p class="help is-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
 
-                    <div class="alert alert-success">
-                        <a class="close" href="#" data-dismiss="alert">×</a>
+                                    <!-- Champ password -->
+                                    <div class="field">
+                                        <label for="{{ form.password.id_for_label }}">Mot de passe</label>
+                                        <div class="control has-icons-left">
+                                            {% render_field form.password class="input" placeholder="Mot de passe" %}
+                                            <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i></span>
+                                        </div>
+                                    </div>
 
-                        {{ message }}
+                                    {% for message in messages %}
 
+                                        <div class="alert alert-success">
+                                            <a class="close" href="#" data-dismiss="alert">×</a>
+
+                                            {{ message }}
+
+                                        </div>
+                                    {% endfor %}
+
+                                    <!-- Bouton de connexion -->
+                                    <div class="field mt-5">
+                                        <div class="control">
+                                            <button type="submit" class="button is-primary">Connexion</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
                     </div>
-        {% endfor %}
+                </div>
+            </div>
+        </div>
 
-        <button type="submit">Connexion</button>
-
-      </form>
+    </section>
 
 {% endblock %}

@@ -6,6 +6,7 @@ from django.contrib import auth
 
 # HTTP Codes tests :
 
+
 class IndexPageTestCase(TestCase):
 
     def setUp(self):
@@ -21,6 +22,7 @@ class IndexPageTestCase(TestCase):
         self.client.login(username='temporary', password='temporary')
         response = self.client.get(reverse('ppefrais:index'))
         self.assertEqual(response.status_code, 302)
+
 
 class HomePageTestCase(TestCase):
 
@@ -39,9 +41,7 @@ class HomePageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-# Create your tests here.
-
-class connectionTestCase(TestCase):
+class ConnectionTestCase(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user('temporary',

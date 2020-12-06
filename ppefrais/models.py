@@ -25,14 +25,13 @@ class FraisForfait(models.Model):
 
 
 class LigneFraisHorsForfait(models.Model):
-    utilisateur = models.ForeignKey('utilisateur', on_delete=models.RESTRICT, default=None)
+    utilisateur = models.ForeignKey('Utilisateur', on_delete=models.RESTRICT, default=None)
     mois = models.CharField(max_length=6, null=False)
     frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
     quantite = models.PositiveIntegerField()
-    bla
 
     class Meta:
-        unique_together = (('utilisateur','mois','frais_forfait'),)
+        unique_together = (('utilisateur', 'mois', 'frais_forfait'),)
 
 
 class Utilisateur(models.Model):

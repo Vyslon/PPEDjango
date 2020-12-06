@@ -9,7 +9,6 @@ from .forms import AuthenticationForm
 from .models import Utilisateur
 
 
-
 # Create your views here.
 def index(request):
     if request.method == 'POST':

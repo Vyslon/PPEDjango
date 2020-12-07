@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.contrib import auth
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractUser
 CustomUser = get_user_model()
 
 # HTTP Codes tests :
@@ -20,8 +19,8 @@ class IndexPageTestCase(TestCase):
 
     def test_index_page_connected(self):
         self.client.login(username='temporary', password='temporary')
-        response = self.client.get(reverse('ppefrais:index'))
-        self.assertEqual(response.status_code, 302)
+        response = self.client.get(reverse('accueil'))
+        self.assertEqual(response.status_code, 200)
 
 
 class HomePageTestCase(TestCase):
@@ -44,14 +43,13 @@ class HomePageTestCase(TestCase):
 class ConnectionTestCase(TestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user('temporary',
-                                             'temporary@gmail.com', 'temporary')
+        self.user = CustomUser.objects.create_user('temporary', 'temporary')
 
     def test_user_is_connected(self):
         password = 'temporary'
         username = 'temporary'
         response = self.client.post(reverse(
-            'ppefrais:index'), {
+            'accueil'), {
                 'username': username,
                 'password': password,
             })

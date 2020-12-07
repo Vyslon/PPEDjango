@@ -37,3 +37,8 @@ class ConnectionTestCase(TestCase):
         self.client.login(username='temporary', password='wrongpassword')
         user = auth.get_user(self.client)
         self.assertFalse(user.is_authenticated)
+
+    def test_user_is_not_connected_without_password(self):
+        self.client.login(username='temporary')
+        user = auth.get_user(self.client)
+        self.assertFalse(user.is_authenticated)

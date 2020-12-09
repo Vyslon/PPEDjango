@@ -15,7 +15,19 @@
     <div id="navbarExampleTransparentExample" class="navbar-menu">
         <div class="navbar-start">
             <a class="navbar-item" href="{% url 'accueil' %}">Accueil</a>
-            {% block nav %}{% endblock %}
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link" href="{% url 'accueil' %}">
+                    Fiches de frais
+                </a>
+                <div class="navbar-dropdown is-boxed">
+                    <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
+                        Voir les fiches
+                    </a>
+                    <a class="navbar-item" href="https://bulma.io/documentation/overview/modifiers/">
+                        Ajouter une fiche
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="navbar-end">
             <div class="navbar-item">

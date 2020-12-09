@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} Fiches de frais {% endblock %}
+
+{% block content %}
+
+    <section class="hero is-light is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column" style="max-width: 564px;">
+                    <h1 class="title">Consulter une fiche de frais</h1>
+                    <form action="" method="get" class="form-example">
+                        <div class="field   ">
+                          <label class="label">Veuillez sélectionner un mois</label>
+                            <div class="select is-multiple">
+                              <select multiple size="{{ size }}">
+                                  {% for elt in fiches_nomMois %}
+                                    <option value="{{ elt.0.mois }}">
+                                        {{ elt.1 }}
+                                    </option>
+                                  {% endfor %}
+                                </select>
+                            </div>
+                            <button class="button is-link">
+                              Valider
+                            </button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

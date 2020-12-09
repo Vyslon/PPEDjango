@@ -27,6 +27,9 @@
                             {% else %}
                                 {{ user.username }}
                             {% endif %}
+                            {% if user.statut %}
+                                ({{ user.get_statut_display }})
+                            {% endif %}
                         </span>
                         <p class="control">
                             <a class="button is-primary" href="{% url 'logout' %}">

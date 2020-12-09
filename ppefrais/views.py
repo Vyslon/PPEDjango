@@ -1,12 +1,10 @@
-import time
-
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from .forms import AuthenticationForm
-from .models import CustomUser
+from .models import FicheFrais
+from django.views.generic.edit import CreateView
 
 
-
+class FicheCreate(CreateView):
+    model = FicheFrais
+    fields = '__all__'

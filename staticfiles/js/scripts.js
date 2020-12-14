@@ -1,3 +1,18 @@
+// Le navbar-item / navbar-link perd le focus après clic
+document.addEventListener('DOMContentLoaded', () => {
+
+  const $navbarItem = Array.prototype.slice.call(document.querySelectorAll(".navbar-item, .navbar-link"), 0);
+
+    if ($navbarItem.length > 0) {
+
+        $navbarItem.forEach(el => {
+            el.addEventListener('click', () => {
+                el.blur();
+            });
+        });
+    }
+
+// BURGER MENU
 document.addEventListener('DOMContentLoaded', () => {
 
   // Get all "navbar-burger" elements

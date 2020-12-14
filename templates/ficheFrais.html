@@ -12,12 +12,38 @@
                         <table class="table">
                           <thead>
                             <tr>
-                                <th>TODO : lister les éléments forfaitisés (et voir trello)</th>
-                                <th>ici</th>
-                                <th>et ici</th>
-                                <th>et là</th>
+                                <th>Attribut</th>
+                                <th>Valeur</th>
                             </tr>
                           </thead>
+                            <tr>
+                                <td>État</td>
+                                <td>{{ etat.libelle }}</td>
+                            </tr>
+                            <tr>
+                                <td>Date de la dernière modification</td>
+                                <td>{{ ficheFrais.date_modif }}</td>
+                            </tr>
+                        </table>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                                <th>Attribut</th>
+                                <th>Valeur</th>
+                            </tr>
+                          </thead>
+                            {% for ligneFrais in lignesFrais %}
+                                <tr>
+                                    <td>Frais</td>
+                                    <td>{{ ligneFrais.frais_forfait }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Quantité</td>
+                                    <td>{{ ligneFrais.quantite }}</td>
+                                </tr>
+                            {% endfor %}
+                    </table>
+
 
 
                     </div>

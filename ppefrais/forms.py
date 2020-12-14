@@ -1,17 +1,2 @@
-from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import CustomUser
-
-
-class CustomUserCreationForm(forms.ModelForm):
-
-    class Meta:
-        model = CustomUser
-        fields = ('statut', 'adresse', 'code_postal', 'date_embauche')
-
-
-class CustomUserChangeForm(forms.ModelForm):
-
-    class Meta:
-        model = CustomUser
-        fields = ('statut', 'adresse', 'code_postal', 'date_embauche')
+from django.forms import ModelForm
+from .models import FicheFrais

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -35,6 +36,10 @@ class FicheFrais(models.Model):
 
     class Meta:
         unique_together = (('mois', 'utilisateur'),)
+
+    def get_absolute_url(self):
+        return reverse('les-fiches')
+    # TODO : corriger cette horreur / erreur
 
     def __str__(self):
         return self.mois + ' ' + self.utilisateur.__str__()

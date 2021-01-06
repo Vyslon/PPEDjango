@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} Nouvelle fiche de frais {% endblock %}
+
+{% block content %}
+
+    <section class="hero is-light is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column" style="max-width: 564px;">
+                        <div class="panel is-primary">
+                            <div class="panel-heading">
+                                <p>Nouvelle fiche de frais</p>
+                            </div>
+                        </div>
+                        <div class="panel-blok">
+                            <form class="control" method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                {{ form.non_field_errors }}
+                                {{ field.errors }}
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="submit" class="button is-link is-fullwidth">
+                                            Valider
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

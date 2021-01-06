@@ -56,4 +56,4 @@ def une_fiche_frais(request, mois):
 class FicheCreate(CreateView):
     model = FicheFrais
     fields = '__all__'
-
+    template_name = 'ficheFraisCreate.html'

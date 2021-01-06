@@ -1,9 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
-from django.shortcuts import redirect
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from .models import FicheFrais, Etat, LigneFraisHorsForfait, CustomUser, LigneFraisForfait, FraisForfait
+from .models import FicheFrais, LigneFraisHorsForfait, CustomUser, LigneFraisForfait, FraisForfait
 from django.views.generic.edit import CreateView
 import datetime
 

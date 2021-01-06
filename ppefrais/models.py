@@ -6,8 +6,8 @@ from django.utils.translation import gettext_lazy as _
 
 class CustomUser(AbstractUser):
     class Statut(models.TextChoices):
-        COMPTABLE = 'VST', _('Visiteur')
-        VISITEUR = 'CPT', _('Comptable')
+        VISITEUR = 'VST', _('Visiteur')
+        COMPTABLE = 'CPT', _('Comptable')
 
     statut = models.CharField(max_length=3, choices=Statut.choices, default=Statut.COMPTABLE)
     adresse = models.CharField(max_length=30, null=True, blank=True)

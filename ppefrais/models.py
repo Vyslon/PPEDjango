@@ -19,20 +19,19 @@ class CustomUser(AbstractUser):
         return self.username
 
 
-class Etat(models.Model):
-    libelle = models.CharField(max_length=30, null=True)
-
-    def __str__(self):
-        return self.libelle
-
-
 class FicheFrais(models.Model):
+    class Etat(models.TextChoices):
+        CLOTUREE = 'CL', _('Saisie clôturée')
+        ENCOURS = 'CR', _('Fiche créée, saisie en cours')
+        REMBOURSEE = 'RB', _('Remboursée')
+        VALIDEE = 'VA', _('Validée et mise en paiement')
+
+    etat = models.CharField(max_length=3, choices=Etat.choices, default=Etat.ENCOURS)
     utilisateur = models.ForeignKey('CustomUser', on_delete=models.RESTRICT, default=None)
     mois = models.CharField(max_length=6, null=False)
     nb_justificatifs = models.PositiveIntegerField(null=True)
     montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     date_modif = models.DateField(null=True)
-    etat = models.ForeignKey('Etat', on_delete=models.RESTRICT, default=None)
 
     class Meta:
         unique_together = (('mois', 'utilisateur'),)

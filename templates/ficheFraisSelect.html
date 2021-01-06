@@ -9,18 +9,22 @@
             <div class="container">
                 <div class="columns is-centered">
                     <div class="column" style="max-width: 564px;">
-                        Veuillez choisir le mois de la fiche de frais à consulter
-                        <table class="table">
-                            {% for elt in fiches_nomMois %}
-                                <tr>
-                                    <th>
-                                        <a href="{% url 'une-fiche' mois=elt.0.mois %}">
-                                            {{ elt.1 }}
-                                        </a>
-                                    </th>
-                                </tr>
-                            {% endfor %}
-                        </table>
+                        {% if fiches_nomMois %}
+                            <h1 class="title is-3">Veuillez choisir le mois de la fiche de frais à consulter</h1>
+                            <table class="table">
+                                {% for elt in fiches_nomMois %}
+                                    <tr>
+                                        <th>
+                                            <a href="{% url 'une-fiche' moisAnnee=elt.0.mois %}">
+                                                {{ elt.1 }} {{ elt.2 }}
+                                            </a>
+                                        </th>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <h1 class="title is-3">Aucune fiche de frais</h1>
+                        {% endif %}
                     </div>
                 </div>
             </div>

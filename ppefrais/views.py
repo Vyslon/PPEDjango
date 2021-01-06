@@ -44,8 +44,8 @@ def une_fiche_frais(request, moisAnnee):
     except:
         raise Http404("Pas de fiche de frais correspondante")
 
-    lignesFrais = LigneFraisForfait.objects.filter(utilisateur=usr, mois=moisAnnee)
-    lignesFraisHF = LigneFraisHorsForfait.objects.filter(utilisateur=usr, mois=moisAnnee)
+    lignesFrais = LigneFraisForfait.objects.filter(fiche=ficheFrais)
+    lignesFraisHF = LigneFraisHorsForfait.objects.filter(fiche=ficheFrais)
 
 
     context = {

@@ -48,3 +48,15 @@ class LigneFraisHorsForfait(models.Model):
 
     class Meta:
         unique_together = (('utilisateur', 'mois', 'frais_forfait'),)
+
+
+class LigneFraisForfait(models.Model):
+    utilisateur = models.ForeignKey('CustomUser', on_delete=models.RESTRICT, default=None)
+    mois = models.CharField(max_length=6, null=False)
+    frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
+    quantite = models.PositiveIntegerField()
+    date = models.DateField(null=True)
+
+    class Meta:
+        unique_together = (('utilisateur', 'mois', 'frais_forfait'),)
+

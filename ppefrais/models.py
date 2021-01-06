@@ -21,6 +21,9 @@ class CustomUser(AbstractUser):
 class Etat(models.Model):
     libelle = models.CharField(max_length=30, null=True)
 
+    def __str__(self):
+        return self.libelle
+
 
 class FicheFrais(models.Model):
     utilisateur = models.ForeignKey('CustomUser', on_delete=models.RESTRICT, default=None)
@@ -33,13 +36,19 @@ class FicheFrais(models.Model):
     class Meta:
         unique_together = (('mois', 'utilisateur'),)
 
+    def __str__(self):
+        return self.mois + ' ' + self.utilisateur.__str__()
+
 
 class FraisForfait(models.Model):
     libelle = models.CharField(max_length=20, null=True)
     montant = models.DecimalField(max_digits=5, decimal_places=2, null=True)
 
+    def __str__(self):
+        return self.libelle
 
-class LigneFraisHorsForfait(models.Model):
+
+class AbstractLigneFraisForfait(models.Model):
     utilisateur = models.ForeignKey('CustomUser', on_delete=models.RESTRICT, default=None)
     mois = models.CharField(max_length=6, null=False)
     frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
@@ -48,15 +57,15 @@ class LigneFraisHorsForfait(models.Model):
 
     class Meta:
         unique_together = (('utilisateur', 'mois', 'frais_forfait'),)
+        abstract = True
+
+    def __str__(self):
+        return self.date.__str__() + ' ' + self.utilisateur.__str__()
 
 
-class LigneFraisForfait(models.Model):
-    utilisateur = models.ForeignKey('CustomUser', on_delete=models.RESTRICT, default=None)
-    mois = models.CharField(max_length=6, null=False)
-    frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
-    quantite = models.PositiveIntegerField()
-    date = models.DateField(null=True)
+class LigneFraisHorsForfait(AbstractLigneFraisForfait):
+    pass
 
-    class Meta:
-        unique_together = (('utilisateur', 'mois', 'frais_forfait'),)
 
+class LigneFraisForfait(AbstractLigneFraisForfait):
+    pass

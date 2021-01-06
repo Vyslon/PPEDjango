@@ -54,6 +54,7 @@ class AbstractLigneFraisForfait(models.Model):
     frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
     quantite = models.PositiveIntegerField()
     date = models.DateField(null=True)
+    fiche = models.ForeignKey('FicheFrais', on_delete=models.RESTRICT, default=None)
 
     class Meta:
         unique_together = (('utilisateur', 'mois', 'frais_forfait'),)

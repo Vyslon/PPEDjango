@@ -53,7 +53,6 @@ class FraisForfait(models.Model):
 
 
 class AbstractLigneFraisForfait(models.Model):
-    utilisateur = models.ForeignKey('CustomUser', on_delete=models.RESTRICT, default=None)
     mois = models.CharField(max_length=6, null=False)
     frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
     quantite = models.PositiveIntegerField()

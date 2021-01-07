@@ -17,8 +17,27 @@
                         <div class="panel-blok">
                             <form class="control" method="post">
                                 {% csrf_token %}
+
+                                {% load widget_tweaks %}
+
+                                {% if form.non_field_errors %}
+                                    <div class="notification is-danger is-light" role="alert">
+                                        {% for error in form.non_field_errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <div class="field">
+                                    <div class="label">Etat</div>
+                                    <div class="control">
+                                        <div class="select">
+                                            {% render_field form.etat class="select" name="etat" %}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 {{ form.as_p }}
-                                {{ form.non_field_errors }}
                                 {{ field.errors }}
                                 <div class="field">
                                     <div class="control">

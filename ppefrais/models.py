@@ -60,7 +60,6 @@ class AbstractLigneFraisForfait(models.Model):
     fiche = models.ForeignKey('FicheFrais', on_delete=models.RESTRICT, default=None)
 
     class Meta:
-        unique_together = (('utilisateur', 'mois', 'frais_forfait'),)
         abstract = True
 
     def __str__(self):

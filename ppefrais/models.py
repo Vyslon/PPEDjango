@@ -6,8 +6,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Visiteur(AbstractUser):
-    nom = models.CharField(max_length=50, null=True, blank=True)
-    prenom = models.CharField(max_length=50, null=True, blank=True)
     adresse = models.CharField(max_length=30, null=True, blank=True)
     code_postal = models.CharField(max_length=5, null=True, blank=True)
     ville = models.CharField(max_length=30, null=True, blank=True)

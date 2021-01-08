@@ -48,14 +48,6 @@ class FicheFrais(models.Model):
         return self.mois + ' ' + self.visiteur.__str__()
 
 
-class FraisForfait(models.Model):
-    libelle = models.CharField(max_length=20, null=True, blank=True)
-    montant = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-
-    def __str__(self):
-        return self.libelle
-
-
 class AbstractLigneFrais(models.Model):
     fiche = models.ForeignKey('FicheFrais', on_delete=models.RESTRICT, default=None)
 
@@ -80,7 +72,13 @@ class LigneFraisHorsForfait(AbstractLigneFrais):
 
 
 class LigneFraisForfait(AbstractLigneFrais):
-    frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
+    class FraisForfait(models.TextChoices):
+        ETAPE = 'ETP', _('Forfait étape')
+        FRAISKM = 'KM', _('Frais kilométrique')
+        NUITHOTEL = 'NUI', _('Nuitée hôtel')
+        RESTAU = 'REP', _('Repas restaurant')
+
+    frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None)
     quantite = models.PositiveIntegerField()
 
     def __str__(self):

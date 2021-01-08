@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm
-from .models import Visiteur, FicheFrais, FraisForfait, LigneFraisHorsForfait, LigneFraisForfait
+from .models import Visiteur, FicheFrais, LigneFraisHorsForfait, LigneFraisForfait
 
 
 class VisiteurChangeForm(UserChangeForm):
@@ -21,4 +21,3 @@ admin.site.register(Visiteur, CustomUserAdmin)
 admin.site.register(FicheFrais),
 admin.site.register(LigneFraisHorsForfait),
 admin.site.register(LigneFraisForfait),
-admin.site.register(FraisForfait),

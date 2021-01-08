@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
-from .models import FicheFrais, LigneFraisHorsForfait, Visiteur, LigneFraisForfait, FraisForfait
+from .models import FicheFrais, LigneFraisHorsForfait, Visiteur, LigneFraisForfait
 from django.views.generic.edit import CreateView
 import datetime
 
@@ -43,7 +43,6 @@ def une_fiche_frais(request, moisAnnee):
 
     lignesFrais = LigneFraisForfait.objects.filter(fiche=ficheFrais)
     lignesFraisHF = LigneFraisHorsForfait.objects.filter(fiche=ficheFrais)
-
 
     context = {
         'ficheFrais': ficheFrais,

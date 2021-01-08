@@ -35,7 +35,7 @@ def fiches_frais(request):
 
 
 def une_fiche_frais(request, moisAnnee):
-    usr = Visiteur.objects.filter(id=request.user.id)[0]
+    usr = request.user
     try:
         ficheFrais = FicheFrais.objects.filter(mois=moisAnnee, visiteur=usr)[0]
     except:
@@ -50,6 +50,10 @@ def une_fiche_frais(request, moisAnnee):
         'lignesFraisHorsForfait': lignesFraisHF
     }
     return render(request, 'ficheFrais.html', context)
+
+
+def saisir_frais(request):
+    pass
 
 
 class FicheCreate(CreateView):

@@ -5,15 +5,17 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-class CustomUser(AbstractUser):
-    class Statut(models.TextChoices):
-        VISITEUR = 'VST', _('Visiteur')
-        COMPTABLE = 'CPT', _('Comptable')
-
-    statut = models.CharField(max_length=3, choices=Statut.choices, default=Statut.COMPTABLE)
+class Visiteur(AbstractUser):
+    nom = models.CharField(max_length=50, null=True, blank=True)
+    prenom = models.CharField(max_length=50, null=True, blank=True)
     adresse = models.CharField(max_length=30, null=True, blank=True)
     code_postal = models.CharField(max_length=5, null=True, blank=True)
+    ville = models.CharField(max_length=30, null=True, blank=True)
     date_embauche = models.DateField(null=True, blank=True, default=timezone.now)
+
+    class Meta:
+        verbose_name = 'Visiteur médical'
+        verbose_name_plural = 'Visiteurs médicaux'
 
     def __str__(self):
         return self.username
@@ -27,48 +29,63 @@ class FicheFrais(models.Model):
         VALIDEE = 'VA', _('Validée et mise en paiement')
 
     etat = models.CharField(max_length=3, choices=Etat.choices, default=Etat.ENCOURS)
-    utilisateur = models.ForeignKey('CustomUser', on_delete=models.RESTRICT, default=None)
+    visiteur = models.ForeignKey('Visiteur', on_delete=models.RESTRICT, default=None)
     mois = models.CharField(max_length=6, null=False)
-    nb_justificatifs = models.PositiveIntegerField(null=True)
+    nb_justificatifs = models.PositiveIntegerField(null=True, blank=True)
     montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     date_modif = models.DateField(null=True)
 
     class Meta:
-        unique_together = (('mois', 'utilisateur'),)
+        verbose_name = 'Fiche de frais'
+        verbose_name_plural = 'Fiches de frais'
+        unique_together = (('mois', 'visiteur'),)
 
     def get_absolute_url(self):
         return reverse('les-fiches')
     # TODO : corriger cette horreur / erreur
 
     def __str__(self):
-        return self.mois + ' ' + self.utilisateur.__str__()
+        return self.mois + ' ' + self.visiteur.__str__()
 
 
 class FraisForfait(models.Model):
-    libelle = models.CharField(max_length=20, null=True)
-    montant = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    libelle = models.CharField(max_length=20, null=True, blank=True)
+    montant = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.libelle
 
 
-class AbstractLigneFraisForfait(models.Model):
-    mois = models.CharField(max_length=6, null=False)
-    frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
-    quantite = models.PositiveIntegerField()
-    date = models.DateField(null=True)
+class AbstractLigneFrais(models.Model):
     fiche = models.ForeignKey('FicheFrais', on_delete=models.RESTRICT, default=None)
+
+    def __str__(self):
+        return str(self.fiche.id) + str(self.id) + '(Abstr.)'
 
     class Meta:
         abstract = True
 
+
+class LigneFraisHorsForfait(AbstractLigneFrais):
+    libelle = models.CharField(max_length=50, null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+    montant = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+
     def __str__(self):
-        return self.date.__str__() + ' ' + self.utilisateur.__str__()
+        return str(self.fiche.id) + str(self.id) + ' (H.F.)'
+
+    class Meta:
+        verbose_name = 'Ligne de frais (hors forfait)'
+        verbose_name_plural = 'Lignes de frais (hors forfait)'
 
 
-class LigneFraisHorsForfait(AbstractLigneFraisForfait):
-    pass
+class LigneFraisForfait(AbstractLigneFrais):
+    frais_forfait = models.ForeignKey('FraisForfait', on_delete=models.RESTRICT, default=None)
+    quantite = models.PositiveIntegerField()
 
+    def __str__(self):
+        return str(self.fiche.id) + str(self.id)
 
-class LigneFraisForfait(AbstractLigneFraisForfait):
-    pass
+    class Meta:
+        verbose_name = 'Ligne de frais'
+        verbose_name_plural = 'Lignes de frais'

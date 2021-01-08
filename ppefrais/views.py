@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import Http404
-from .models import FicheFrais, LigneFraisHorsForfait, CustomUser, LigneFraisForfait, FraisForfait
+from .models import FicheFrais, LigneFraisHorsForfait, Visiteur, LigneFraisForfait, FraisForfait
 from django.views.generic.edit import CreateView
 import datetime
 
 def fiches_frais(request):
-    usr = CustomUser.objects.filter(id=request.user.id)[0]
+    usr = Visiteur.objects.filter(id=request.user.id)[0]
     moisEntier = [
         'None',
         'Janvier',
@@ -23,7 +23,7 @@ def fiches_frais(request):
     ]
 
     dateMinimum = str(datetime.datetime.now().year - 1) + '01'
-    ficheFrais = FicheFrais.objects.filter(utilisateur=usr).order_by('mois').extra(where=['mois>=%s'], params=[dateMinimum])
+    ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('mois').extra(where=['mois>=%s'], params=[dateMinimum])
     nomMois = [moisEntier[int(elt.mois[4:6].strip('0'))] for elt in ficheFrais]
     annee = [elt.mois[0:4] for elt in ficheFrais]
 
@@ -35,9 +35,9 @@ def fiches_frais(request):
 
 
 def une_fiche_frais(request, moisAnnee):
-    usr = CustomUser.objects.filter(id=request.user.id)[0]
+    usr = Visiteur.objects.filter(id=request.user.id)[0]
     try:
-        ficheFrais = FicheFrais.objects.filter(mois=moisAnnee, utilisateur=usr)[0]
+        ficheFrais = FicheFrais.objects.filter(mois=moisAnnee, visiteur=usr)[0]
     except:
         raise Http404("Pas de fiche de frais correspondante")
 

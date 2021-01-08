@@ -124,7 +124,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = BASE_DIR.joinpath('staticfiles')
 
 # Auth model
-AUTH_USER_MODEL = 'ppefrais.CustomUser'
+AUTH_USER_MODEL = 'ppefrais.Visiteur'
 
 # URLs de connexion / déconnexion
 LOGIN_REDIRECT_URL = 'accueil'

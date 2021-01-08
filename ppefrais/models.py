@@ -29,9 +29,9 @@ class FicheFrais(models.Model):
     etat = models.CharField(max_length=3, choices=Etat.choices, default=Etat.ENCOURS)
     visiteur = models.ForeignKey('Visiteur', on_delete=models.RESTRICT, default=None)
     mois = models.CharField(max_length=6, null=False)
-    nb_justificatifs = models.PositiveIntegerField(null=True, blank=True)
-    montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    date_modif = models.DateField(null=True)
+    nb_justificatifs = models.PositiveIntegerField(null=True, blank=True, default=0)
+    montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0.0)
+    date_modif = models.DateField(null=True, default=timezone.datetime.now())
 
     class Meta:
         verbose_name = 'Fiche de frais'

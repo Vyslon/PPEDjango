@@ -15,6 +15,7 @@
     <div id="navbarExampleTransparentExample" class="navbar-menu">
         <div class="navbar-start">
             <a class="navbar-item" href="{% url 'accueil' %}">Accueil</a>
+            {% if user.is_authenticated %}
             <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link" href="{% url 'accueil' %}">
                     Fiches de frais
@@ -28,6 +29,7 @@
                     </a>
                 </div>
             </div>
+            {% endif %}
         </div>
         <div class="navbar-end">
             <div class="navbar-item">
@@ -39,9 +41,7 @@
                             {% else %}
                                 {{ user.username }}
                             {% endif %}
-                            {% if user.statut %}
-                                ({{ user.get_statut_display }})
-                            {% endif %}
+                                (Visiteur)
                         </span>
                         <p class="control">
                             <a class="button is-primary" href="{% url 'logout' %}">

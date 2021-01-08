@@ -9,7 +9,6 @@
             <div class="container">
                 <div class="columns is-centered">
                     <div class="column" style="max-width: 564px;">
-                        {% if fiches_nomMois %}
                             <h1 class="title is-3">Veuillez choisir le mois de la fiche de frais à consulter</h1>
                             <table class="table">
                                 {% for elt in fiches_nomMois %}
@@ -20,11 +19,19 @@
                                             </a>
                                         </th>
                                     </tr>
+                                {% empty %}
+                                    <div class="notification is-info" style="max-width: 260px;">
+                                        <span class="icon-text">
+                                            <span class="icon">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
+                                            <span>
+                                                Aucune fiche de frais.
+                                            </span>
+                                        </span>
+                                    </div>
                                 {% endfor %}
                             </table>
-                        {% else %}
-                            <h1 class="title is-3">Aucune fiche de frais</h1>
-                        {% endif %}
                     </div>
                 </div>
             </div>

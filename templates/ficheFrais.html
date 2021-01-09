@@ -78,13 +78,14 @@
                             </div>
                             <p class="buttons">
                                 <a href="{% url 'saisie-ligne-forfait' ficheFrais.mois|date:'Ym' %}"
-                                   class="button">
+                                   class="button is-link">
                                 <span class="icon is-small">
                                     <i class="fas fa-plus"></i>
                                 </span>
                                     <span>Saisir nouvelle ligne</span>
                                 </a>
-                                <button id="lff_modifBtn" class="button" disabled>
+                                <button id="lff_modifBtn"
+                                        class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-edit"></i>
                                 </span>
@@ -134,19 +135,21 @@
                             </div>
                             <p class="buttons">
                                 <a href="{% url 'saisie-ligne-hors-forfait' ficheFrais.mois|date:'Ym' %}"
-                                   class="button">
+                                   class="button is-link">
                                 <span class="icon is-small">
                                     <i class="fas fa-plus"></i>
                                 </span>
                                     <span>Saisir nouvelle ligne</span>
                                 </a>
-                                <button id="lhf_modifBtn" class="button" disabled>
+                                <button id="lhf_modifBtn"
+                                        class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-edit"></i>
                                 </span>
                                     <span>Modifier</span>
                                 </button>
-                                <button id="lhf_supprBtn" class="button" disabled>
+                                <button id="lhf_supprBtn"
+                                        class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-times"></i>
                                 </span>

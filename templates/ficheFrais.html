@@ -31,26 +31,23 @@
                             </tr>
                             <tr>
                                 <td>Montant validé</td>
-                                <td>{{ ficheFrais.montant_valide }}</td>
+                                <td>{{ ficheFrais.montant_valide }} €</td>
                             </tr>
                         </table>
                         <h1 class="title is-3">Frais forfaitisés</h1>
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Date</th>
                                 <th>Libellé</th>
-                                <th>Montant</th>
                                 <th>Quantité</th>
+                                <th>Montant unitaire</th>
                             </tr>
                             </thead>
                             {% for ligneFrais in lignesFraisForfait %}
-
                                 <tr>
-                                    <td>{{ ligneFrais.date }}</td>
-                                    <td>{{ ligneFrais.frais_forfait.libelle }}</td>
-                                    <td>{{ ligneFrais.frais_forfait.montant }}</td>
-                                    <td>{{ ligneFrais.quantite }}</td>
+                                    <td>{{ ligneFrais.get_frais_forfait_display }}</td>
+                                    <td class="has-text-right">{{ ligneFrais.quantite }}</td>
+                                    <td class="has-text-right">{{ ligneFrais.montant }} €</td>
                                 </tr>
                             {% endfor %}
                         </table>
@@ -61,15 +58,13 @@
                                 <th>Date</th>
                                 <th>Libellé</th>
                                 <th>Montant</th>
-                                <th>Quantité</th>
                             </tr>
                             </thead>
                             {% for ligneFrais in lignesFraisHorsForfait %}
                                 <tr>
                                     <td>{{ ligneFrais.date }}</td>
-                                    <td>{{ ligneFrais.frais_forfait.libelle }}</td>
-                                    <td>{{ ligneFrais.frais_forfait.montant }}</td>
-                                    <td>{{ ligneFrais.quantite }}</td>
+                                    <td>{{ ligneFrais.libelle }}</td>
+                                    <td class="has-text-right">{{ ligneFrais.montant }} €</td>
                                 </tr>
                             {% endfor %}
                         </table>

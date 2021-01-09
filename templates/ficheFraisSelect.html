@@ -14,7 +14,7 @@
                             {% for elt in fiches_nomMois %}
                                 <tr>
                                     <th>
-                                        <a href="{% url 'une-fiche' moisAnnee=elt.0.mois %}">
+                                        <a href="{% url 'une-fiche' elt.0.mois|date:'Ym' %}">
                                             {{ elt.1 }} {{ elt.2 }}
                                         </a>
                                     </th>

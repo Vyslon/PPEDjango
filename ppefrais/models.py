@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
+from month.models import MonthField
 
 
 class Visiteur(AbstractUser):
@@ -27,7 +29,7 @@ class FicheFrais(models.Model):
 
     etat = models.CharField(max_length=3, choices=Etat.choices, default=Etat.ENCOURS)
     visiteur = models.ForeignKey('Visiteur', on_delete=models.RESTRICT, default=None)
-    mois = models.CharField(max_length=6, null=False)
+    mois = MonthField(null=False, blank=False, default='202001')
     nb_justificatifs = models.PositiveIntegerField(null=True, blank=True, default=0)
     montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
     date_modif = models.DateField(null=True, default=timezone.now)
@@ -38,7 +40,7 @@ class FicheFrais(models.Model):
         unique_together = (('mois', 'visiteur'),)
 
     def __str__(self):
-        return self.mois + ' ' + self.visiteur.__str__()
+        return str(self.mois) + ' ' + self.visiteur.__str__()
 
 
 class AbstractLigneFrais(models.Model):

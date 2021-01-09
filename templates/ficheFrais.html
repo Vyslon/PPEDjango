@@ -77,12 +77,13 @@
                                 </table>
                             </div>
                             <p class="buttons">
-                                <button class="button">
+                                <a href="{% url 'saisie-ligne-forfait' ficheFrais.mois|date:'Ym' %}"
+                                   class="button">
                                 <span class="icon is-small">
                                     <i class="fas fa-plus"></i>
                                 </span>
                                     <span>Saisir nouvelle ligne</span>
-                                </button>
+                                </a>
                                 <button id="lff_modifBtn" class="button" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-edit"></i>
@@ -111,7 +112,8 @@
                                         <tr>
                                             <td>
                                                 <div class="control">
-                                                    <input type="radio" name="lignefraishorsforfait">
+                                                    <input type="radio" name="lignefraishorsforfait"
+                                                        value="{{ ligneFrais.id }}">
                                                 </div>
                                             </td>
                                             <td>{{ ligneFrais.date }}</td>
@@ -131,12 +133,13 @@
                                 </table>
                             </div>
                             <p class="buttons">
-                                <button class="button">
+                                <a href="{% url 'saisie-ligne-hors-forfait' ficheFrais.mois|date:'Ym' %}"
+                                   class="button">
                                 <span class="icon is-small">
                                     <i class="fas fa-plus"></i>
                                 </span>
                                     <span>Saisir nouvelle ligne</span>
-                                </button>
+                                </a>
                                 <button id="lhf_modifBtn" class="button" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-edit"></i>

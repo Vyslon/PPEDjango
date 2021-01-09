@@ -25,8 +25,8 @@ def fiches_frais(request):
 
     dateMinimum = str(datetime.datetime.now().year - 1) + '01'
     ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('mois').extra(where=['mois>=%s'], params=[dateMinimum])
-    nomMois = [moisEntier[int(elt.mois[4:6].strip('0'))] for elt in ficheFrais]
-    annee = [elt.mois[0:4] for elt in ficheFrais]
+    nomMois = [moisEntier[int(elt.mois.strftime('%m').strip('0'))] for elt in ficheFrais]
+    annee = [elt.mois.strftime('%Y') for elt in ficheFrais]
 
     context = {
         'fiches_nomMois': zip(ficheFrais, nomMois, annee)
@@ -35,10 +35,10 @@ def fiches_frais(request):
     return render(request, 'ficheFraisSelect.html', context)
 
 
-def une_fiche_frais(request, moisAnnee):
+def une_fiche_frais(request, mois):
     usr = request.user
     try:
-        ficheFrais = FicheFrais.objects.filter(mois=moisAnnee, visiteur=usr)[0]
+        ficheFrais = FicheFrais.objects.get(mois=mois, visiteur=usr)
     except:
         raise Http404("Pas de fiche de frais correspondante")
 
@@ -65,13 +65,13 @@ class LigneFraisHorsForfaitCreate(CreateView):
     template_name = 'ligneFraisHorsForfaitCreate.html'
 
 
-class LigneFraisForfaitiseUpdate(UpdateView):
+class LigneFraisForfaitUpdate(UpdateView):
     model = LigneFraisForfait
     fields = '__all__'
     template_name = 'ligneFraisForfaitUpdate.html'
 
 
-class LigneFraisForfaitiseUpdate(UpdateView):
+class LigneFraisForfaitHorsForfaitUpdate(UpdateView):
     model = LigneFraisHorsForfait
     fields = '__all__'
     template_name = 'ligneFraisHorsForfaitUpdate.html'

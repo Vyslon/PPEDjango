@@ -51,12 +51,3 @@ def une_fiche_frais(request, moisAnnee):
     }
     return render(request, 'ficheFrais.html', context)
 
-
-def saisir_frais(request):
-    pass
-
-
-class FicheCreate(CreateView):
-    model = FicheFrais
-    fields = '__all__'
-    template_name = 'ficheFraisCreate.html'

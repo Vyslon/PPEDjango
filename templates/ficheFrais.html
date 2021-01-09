@@ -8,60 +8,124 @@
         <div class="hero-body">
             <div class="container">
                 <div class="columns is-centered">
-                    <div class="column" style="max-width: 564px;">
-                        <h1 class="title is-3">Fiche de frais</h1>
-                        <table class="table">
-                            <tr>
-                                <td>État</td>
-                                <td>{{ ficheFrais.get_etat_display }}</td>
-                            </tr>
-                            <tr>
-                                <td>Date de la dernière modification</td>
-                                <td>{{ ficheFrais.date_modif }}</td>
-                            </tr>
-                            <tr>
-                                <td>Nombre de justificatifs</td>
-                                <td>{{ ficheFrais.nb_justificatifs }}</td>
-                            </tr>
-                            <tr>
-                                <td>Montant validé</td>
-                                <td>{{ ficheFrais.montant_valide|floatformat:2 }} €</td>
-                            </tr>
-                        </table>
-                        <h1 class="title is-3">Frais forfaitisés</h1>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Libellé</th>
-                                <th>Quantité</th>
-                                <th>Montant unitaire</th>
-                            </tr>
-                            </thead>
-                            {% for ligneFrais in lignesFraisForfait %}
-                                <tr>
-                                    <td>{{ ligneFrais.get_frais_forfait_display }}</td>
-                                    <td class="has-text-right">{{ ligneFrais.quantite }}</td>
-                                    <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                        <h1 class="title is-3">Frais Hors Forfait</h1>
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Libellé</th>
-                                <th>Montant</th>
-                            </tr>
-                            </thead>
-                            {% for ligneFrais in lignesFraisHorsForfait %}
-                                <tr>
-                                    <td>{{ ligneFrais.date }}</td>
-                                    <td>{{ ligneFrais.libelle }}</td>
-                                    <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+                    <div class="column" style="max-width: 720px;">
+                        <div>
+                            <h1 class="title is-3">Fiche de frais</h1>
+                            <div class="table-container">
+                                <table class="table">
+                                    <tr>
+                                        <td>État</td>
+                                        <td>{{ ficheFrais.get_etat_display }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date de la dernière modification</td>
+                                        <td>{{ ficheFrais.date_modif }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre de justificatifs</td>
+                                        <td>{{ ficheFrais.nb_justificatifs }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Montant validé</td>
+                                        <td>{{ ficheFrais.montant_valide|floatformat:2 }} €</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="my-3">
+                            <h1 class="title is-3">Frais forfaitisés</h1>
+                            <div class="table-container">
+                                <table class="table is-hoverable">
+                                    <thead>
+                                    <tr>
+                                        <td></td>
+                                        <th>Libellé</th>
+                                        <th>Quantité</th>
+                                        <th>Montant unitaire</th>
+                                        <th>Sous-total</th>
+                                    </tr>
+                                    </thead>
+                                    {% for ligneFrais in lignesFraisForfait %}
+                                        <tr>
+                                            <td>
+                                                <div class="control">
+                                                    <input type="radio" name="lignefraisforfait">
+                                                </div>
+                                            </td>
+                                            <td>{{ ligneFrais.get_frais_forfait_display }}</td>
+                                            <td class="has-text-right">{{ ligneFrais.quantite }}</td>
+                                            <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
+                                            <td></td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td>Total</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                <span>Saisir nouvelle ligne</span>
+                            </button>
+                        </div>
+
+                        <hr>
+
+                        <div class="my-3">
+                            <h2 class="title is-3">Frais hors forfait</h2>
+                            <div class="table-container">
+                                <table class="table is-hoverable">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Date</th>
+                                        <th>Libellé</th>
+                                        <th>Montant</th>
+                                    </tr>
+                                    </thead>
+                                    {% for ligneFrais in lignesFraisHorsForfait %}
+                                        <tr>
+                                            <td>
+                                                <div class="control">
+                                                    <input type="radio" name="lignefraishorsforfait">
+                                                </div>
+                                            </td>
+                                            <td>{{ ligneFrais.date }}</td>
+                                            <td>{{ ligneFrais.libelle }}</td>
+                                            <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td>Total</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p class="buttons">
+                                <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                    <span>Saisir nouvelle ligne</span>
+                                </button>
+                                <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                    <span>Modifier</span>
+                                </button>
+                                <button class="button">
+                                <span class="icon is-small">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                                    <span>Supprimer</span>
+                                </button>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>

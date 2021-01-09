@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import Http404
-from .models import FicheFrais, LigneFraisHorsForfait, Visiteur, LigneFraisForfait
+from .models import FicheFrais, Visiteur, LigneFraisForfait, LigneFraisHorsForfait
 from django.views.generic.edit import CreateView
 import datetime
+
 
 def fiches_frais(request):
     usr = Visiteur.objects.filter(id=request.user.id)[0]
@@ -51,3 +52,14 @@ def une_fiche_frais(request, moisAnnee):
     }
     return render(request, 'ficheFrais.html', context)
 
+
+class LigneFraisForfaitiseCreate(CreateView):
+    model = LigneFraisForfait
+    fields = '__all__'
+    template_name = 'ligneFraisForfaitCreate.html'
+
+
+class LigneFraisHorsForfaitCreate(CreateView):
+    model = LigneFraisHorsForfait
+    fields = '__all__'
+    template_name = 'ligneFraisHorsForfaitCreate.html'

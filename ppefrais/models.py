@@ -31,7 +31,7 @@ class FicheFrais(models.Model):
     mois = models.CharField(max_length=6, null=False)
     nb_justificatifs = models.PositiveIntegerField(null=True, blank=True, default=0)
     montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
-    date_modif = models.DateField(null=True, default=timezone.datetime.now())
+    date_modif = models.DateField(null=True, default=timezone.now)
 
     class Meta:
         verbose_name = 'Fiche de frais'
@@ -39,7 +39,7 @@ class FicheFrais(models.Model):
         unique_together = (('mois', 'visiteur'),)
 
     def get_absolute_url(self):
-        return reverse('les-fiches')
+        return reverse('ficheFrais')
     # TODO : corriger cette horreur / erreur
 
     def __str__(self):
@@ -78,6 +78,18 @@ class LigneFraisForfait(AbstractLigneFrais):
 
     frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None)
     quantite = models.PositiveIntegerField()
+
+    def montant(self):
+        if self.frais_forfait == 'ETP':
+            return 110.00
+        elif self.frais_forfait == 'KM':
+            return 0.62
+        elif self.frais_forfait == 'NUI':
+            return 80.00
+        elif self.frais_forfait == 'REP':
+            return 25.00
+        else:
+            return 0.00
 
     def __str__(self):
         return str(self.fiche.id) + str(self.id)

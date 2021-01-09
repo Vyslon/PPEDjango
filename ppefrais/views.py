@@ -55,24 +55,24 @@ def une_fiche_frais(request, mois):
 
 class LigneFraisForfaitiseCreate(CreateView):
     model = LigneFraisForfait
-    fields = '__all__'
-    template_name = 'ligneFraisForfaitCreate.html'
+    fields = ('frais_forfait', 'quantite')
+    template_name = 'ligneFraisForfaitEdit.html'
 
 
 class LigneFraisHorsForfaitCreate(CreateView):
     model = LigneFraisHorsForfait
     fields = '__all__'
-    template_name = 'ligneFraisHorsForfaitCreate.html'
+    template_name = 'ligneFraisHorsForfaitEdit.html'
 
 
 class LigneFraisForfaitUpdate(UpdateView):
     model = LigneFraisForfait
     fields = '__all__'
-    template_name = 'ligneFraisForfaitUpdate.html'
+    template_name = 'ligneFraisForfaitEdit.html'
 
 
 class LigneFraisForfaitHorsForfaitUpdate(UpdateView):
     model = LigneFraisHorsForfait
     fields = '__all__'
-    template_name = 'ligneFraisHorsForfaitUpdate.html'
+    template_name = 'ligneFraisHorsForfaitEdit.html'
 

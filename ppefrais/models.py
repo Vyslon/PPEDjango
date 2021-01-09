@@ -71,7 +71,7 @@ class LigneFraisForfait(AbstractLigneFrais):
         NUITHOTEL = 'NUI', _('Nuitée hôtel')
         RESTAU = 'REP', _('Repas restaurant')
 
-    frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None)
+    frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None, unique=True)
     quantite = models.PositiveIntegerField()
 
     def montant(self):

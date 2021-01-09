@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 from .models import FicheFrais, Visiteur, LigneFraisForfait, LigneFraisHorsForfait
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 import datetime
 
 
@@ -63,3 +63,16 @@ class LigneFraisHorsForfaitCreate(CreateView):
     model = LigneFraisHorsForfait
     fields = '__all__'
     template_name = 'ligneFraisHorsForfaitCreate.html'
+
+
+class LigneFraisForfaitiseUpdate(UpdateView):
+    model = LigneFraisForfait
+    fields = '__all__'
+    template_name = 'ligneFraisForfaitUpdate.html'
+
+
+class LigneFraisForfaitiseUpdate(UpdateView):
+    model = LigneFraisHorsForfait
+    fields = '__all__'
+    template_name = 'ligneFraisHorsForfaitUpdate.html'
+

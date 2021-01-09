@@ -31,7 +31,7 @@
                             </tr>
                             <tr>
                                 <td>Montant validé</td>
-                                <td>{{ ficheFrais.montant_valide }} €</td>
+                                <td>{{ ficheFrais.montant_valide|floatformat:2 }} €</td>
                             </tr>
                         </table>
                         <h1 class="title is-3">Frais forfaitisés</h1>
@@ -47,7 +47,7 @@
                                 <tr>
                                     <td>{{ ligneFrais.get_frais_forfait_display }}</td>
                                     <td class="has-text-right">{{ ligneFrais.quantite }}</td>
-                                    <td class="has-text-right">{{ ligneFrais.montant }} €</td>
+                                    <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
                                 </tr>
                             {% endfor %}
                         </table>
@@ -64,7 +64,7 @@
                                 <tr>
                                     <td>{{ ligneFrais.date }}</td>
                                     <td>{{ ligneFrais.libelle }}</td>
-                                    <td class="has-text-right">{{ ligneFrais.montant }} €</td>
+                                    <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
                                 </tr>
                             {% endfor %}
                         </table>

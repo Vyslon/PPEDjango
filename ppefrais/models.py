@@ -3,7 +3,6 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.utils.text import slugify
 from month.models import MonthField
 
 
@@ -55,9 +54,9 @@ class AbstractLigneFrais(models.Model):
 
 
 class LigneFraisHorsForfait(AbstractLigneFrais):
-    libelle = models.CharField(max_length=50, null=True, blank=True)
-    date = models.DateField(null=True, blank=True)
-    montant = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    libelle = models.CharField(max_length=50, null=False, blank=False)
+    date = models.DateField(null=False, blank=False)
+    montant = models.DecimalField(decimal_places=2, max_digits=10, null=False, blank=False)
 
     def __str__(self):
         return str(self.fiche.id) + str(self.id) + ' (H.F.)'
@@ -78,7 +77,7 @@ class LigneFraisForfait(AbstractLigneFrais):
         RESTAU = 'REP', _('Repas restaurant')
 
     frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None, unique=True)
-    quantite = models.PositiveIntegerField()
+    quantite = models.PositiveIntegerField(blank=False, null=False)
 
     def montant(self):
         if self.frais_forfait == 'ETP':

@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import Http404
+from django.urls import reverse
+
 from .models import FicheFrais, Visiteur, LigneFraisForfait, LigneFraisHorsForfait
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
 
 
@@ -53,10 +55,15 @@ def une_fiche_frais(request, mois):
     return render(request, 'ficheFrais.html', context)
 
 
-class LigneFraisForfaitiseCreate(CreateView):
+class LigneFraisForfaitCreate(CreateView):
     model = LigneFraisForfait
     fields = ('frais_forfait', 'quantite')
     template_name = 'ligneFraisForfaitEdit.html'
+
+    def form_valid(self, form):
+        fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
+        form.instance.fiche = fiche
+        return super(LigneFraisForfaitCreate, self).form_valid(form)
 
 
 class LigneFraisHorsForfaitCreate(CreateView):
@@ -67,8 +74,13 @@ class LigneFraisHorsForfaitCreate(CreateView):
 
 class LigneFraisForfaitUpdate(UpdateView):
     model = LigneFraisForfait
-    fields = '__all__'
+    fields = ['quantite']
     template_name = 'ligneFraisForfaitEdit.html'
+
+    def form_valid(self, form):
+        fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
+        form.instance.fiche = fiche
+        return super(LigneFraisForfaitUpdate, self).form_valid(form)
 
 
 class LigneFraisForfaitHorsForfaitUpdate(UpdateView):
@@ -76,3 +88,11 @@ class LigneFraisForfaitHorsForfaitUpdate(UpdateView):
     fields = '__all__'
     template_name = 'ligneFraisHorsForfaitEdit.html'
 
+
+class LigneFraisHorsForfaitDelete(DeleteView):
+    template_name = 'ligneFraisHorsForfaitConfirmDelete.html'
+    model = LigneFraisHorsForfait
+
+    def get_success_url(self):
+        fiche = self.object.fiche
+        return reverse('une-fiche', args=[(fiche.mois.strftime('%Y%m'))])

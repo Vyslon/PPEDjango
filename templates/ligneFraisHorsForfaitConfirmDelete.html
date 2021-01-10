@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <section class="hero is-light is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column" style="max-width: 524px;">
+                        <div class="panel is-primary">
+                            <div class="panel-heading">
+                                <p>Supprimer une ligne de frais hors forfait</p>
+                            </div>
+                            <div class="panel-block">
+                                <form class="control" method="post" novalidate>
+                                    {% csrf_token %}
+
+                                    <div class="field">
+                                        <p>Êtes vous sûr de vouloir supprimer {{ object }} ?</p>
+                                    </div>
+                                    <div class="field mt-5">
+                                        <div class="control">
+                                            <button type="submit"
+                                                    class="button is-link is-fullwidth">
+                                                Valider
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

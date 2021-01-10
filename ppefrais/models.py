@@ -34,6 +34,20 @@ class FicheFrais(models.Model):
     montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
     date_modif = models.DateField(null=True, default=timezone.now)
 
+    def total_frais_forfaitises(self):
+        total = 0
+        lignes_forfait = LigneFraisForfait.objects.filter(fiche_id=self.id)
+        for ligne in lignes_forfait:
+            total += ligne.total
+        return total
+
+    def total_frais_horsforfait(self):
+        total = 0
+        lignes_horsforfait = LigneFraisHorsForfait.objects.filter(fiche_id=self.id)
+        for ligne in lignes_horsforfait:
+            total += ligne.montant
+        return total
+
     class Meta:
         verbose_name = 'Fiche de frais'
         verbose_name_plural = 'Fiches de frais'
@@ -79,7 +93,11 @@ class LigneFraisForfait(AbstractLigneFrais):
     frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None, unique=True)
     quantite = models.PositiveIntegerField(blank=False, null=False)
 
-    def montant(self):
+    @property
+    def total(self):
+        return self.montant_unitaire() * self.quantite
+
+    def montant_unitaire(self):
         if self.frais_forfait == 'ETP':
             return 110.00
         elif self.frais_forfait == 'KM':

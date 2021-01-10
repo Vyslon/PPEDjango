@@ -64,8 +64,8 @@
                                             </td>
                                             <td>{{ ligneFrais.get_frais_forfait_display }}</td>
                                             <td class="has-text-right">{{ ligneFrais.quantite }}</td>
-                                            <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
-                                            <td></td>
+                                            <td class="has-text-right">{{ ligneFrais.montant_unitaire|floatformat:2 }} €</td>
+                                            <td class="has-text-right">{{ ligneFrais.total|floatformat:2 }} €</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -75,7 +75,7 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_forfaitises|floatformat:2 }} €</td>
                                     </tr>
                                     </tfoot>
 
@@ -134,7 +134,7 @@
                                         <td><strong>TOTAL</strong></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
+                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_horsforfait|floatformat:2 }} €</td>
                                     </tr>
                                     </tfoot>
                                 </table>

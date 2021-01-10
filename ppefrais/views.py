@@ -1,3 +1,4 @@
+from django import forms
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.urls import reverse
@@ -59,6 +60,7 @@ class LigneFraisForfaitCreate(CreateView):
     model = LigneFraisForfait
     fields = ('frais_forfait', 'quantite')
     template_name = 'ligneFraisForfaitEdit.html'
+    extra_context = {'edit': False}
 
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
@@ -66,16 +68,11 @@ class LigneFraisForfaitCreate(CreateView):
         return super(LigneFraisForfaitCreate, self).form_valid(form)
 
 
-class LigneFraisHorsForfaitCreate(CreateView):
-    model = LigneFraisHorsForfait
-    fields = '__all__'
-    template_name = 'ligneFraisHorsForfaitEdit.html'
-
-
 class LigneFraisForfaitUpdate(UpdateView):
     model = LigneFraisForfait
     fields = ['quantite']
     template_name = 'ligneFraisForfaitEdit.html'
+    extra_context = {'edit': True}
 
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
@@ -83,10 +80,26 @@ class LigneFraisForfaitUpdate(UpdateView):
         return super(LigneFraisForfaitUpdate, self).form_valid(form)
 
 
+class LigneFraisHorsForfaitCreate(CreateView):
+    model = LigneFraisHorsForfait
+    fields = ['libelle', 'date', 'montant']
+    template_name = 'ligneFraisHorsForfaitEdit.html'
+
+    def form_valid(self, form):
+        fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
+        form.instance.fiche = fiche
+        return super(LigneFraisHorsForfaitCreate, self).form_valid(form)
+
+
 class LigneFraisForfaitHorsForfaitUpdate(UpdateView):
     model = LigneFraisHorsForfait
-    fields = '__all__'
+    fields = ['libelle', 'date', 'montant']
     template_name = 'ligneFraisHorsForfaitEdit.html'
+
+    def form_valid(self, form):
+        fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
+        form.instance.fiche = fiche
+        return super(LigneFraisForfaitHorsForfaitUpdate, self).form_valid(form)
 
 
 class LigneFraisHorsForfaitDelete(DeleteView):

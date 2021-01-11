@@ -9,7 +9,8 @@
             <div class="container">
                 <div class="columns is-centered">
                     <div class="column" style="max-width: 564px;">
-                        <h1 class="title is-3">Veuillez choisir le mois de la fiche de frais à consulter</h1>
+                        <h1 class="title is-3">Veuillez choisir le mois de la fiche de frais à consulter...</h1>
+                        <a href='{% url 'nouvelle-fiche-frais' %}' class="is-link">... ou bien créer une nouvelle fiche de frais</a>
                         <table class="table">
                             {% for elt in fiches_nomMois %}
                                 <tr>

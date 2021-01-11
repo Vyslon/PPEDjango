@@ -69,6 +69,9 @@ class FicheFrais(models.Model):
             lff_nuithotel.save()
             lff_restau.save()
 
+    def get_absolute_url(self):
+        return reverse('une-fiche', args=[(self.mois.strftime('%Y%m'))])
+
 
 class AbstractLigneFrais(models.Model):
     fiche = models.ForeignKey('FicheFrais', on_delete=models.RESTRICT, default=None)

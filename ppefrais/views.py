@@ -100,3 +100,13 @@ class LigneFraisHorsForfaitDelete(DeleteView):
     def get_success_url(self):
         fiche = self.object.fiche
         return reverse('une-fiche', args=[(fiche.mois.strftime('%Y%m'))])
+
+
+class FicheFraisCreate(CreateView):
+    model = FicheFrais
+    template_name = 'nouvelleFicheFrais.html'
+    fields = ('mois',)
+
+    def form_valid(self, form):
+        form.instance.visiteur = self.request.user
+        return super(FicheFraisCreate, self).form_valid(form)

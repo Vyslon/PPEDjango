@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %} 'Nouvelle fiche de frais' {% endblock %}
+
+{% block content %}
+    <section class="hero is-light is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column" style="max-width: 720px;">
+                        <div class="panel is-primary">
+                            <div class="panel-heading">
+                                <p>
+                                    Nouvelle fiche de frais
+                                </p>
+                            </div>
+                            <div class="panel-block py-4">
+                                <form class="control" method="post" novalidate>
+                                    {% csrf_token %}
+                                    <div class="field">
+                                        {% load widget_tweaks %}
+                                        {% render_field form.mois %}
+                                    </div>
+                                    <div class="columns is-multiline mt-6">
+                                        <div class="column">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <button type="submit"
+                                                            class="button is-fullwidth is-link">
+                                                        Valider
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <a class="button is-dark is-fullwidth">Annuler
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

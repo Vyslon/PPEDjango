@@ -38,7 +38,7 @@ INSTALLED_APPS = [
 
     'ppefrais.apps.PpefraisConfig',
     'widget_tweaks',
-    'month'
+    'month',
 ]
 
 MIDDLEWARE = [

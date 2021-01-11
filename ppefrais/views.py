@@ -53,7 +53,9 @@ def une_fiche_frais(request, mois):
         'lignesFraisForfait': lignesFrais,
         'lignesFraisHorsForfait': lignesFraisHF
     }
-    return render(request, 'ficheFrais.html', context)
+
+    template = 'ficheFrais.html' if (ficheFrais.etat == FicheFrais.Etat.ENCOURS) else 'ficheFraisVerrouillee.html'
+    return render(request, template, context)
 
 
 class LigneFraisForfaitCreate(CreateView):

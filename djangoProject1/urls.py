@@ -25,8 +25,8 @@ from django.views.generic.base import TemplateView
 urlpatterns = [
     path('', login_required(TemplateView.as_view(template_name='accueil.html'), login_url='login'), name='accueil'),
     path('admin/', admin.site.urls),
-    path('gsb/', include('ppefrais.urls')),
-    path('gsb/', include('django.contrib.auth.urls')),
+    path('', include('ppefrais.urls')),
+    path('', include('django.contrib.auth.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

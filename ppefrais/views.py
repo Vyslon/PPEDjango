@@ -91,7 +91,7 @@ class LigneFraisHorsForfaitCreate(CreateView):
         return super(LigneFraisHorsForfaitCreate, self).form_valid(form)
 
 
-class LigneFraisForfaitHorsForfaitUpdate(UpdateView):
+class LigneFraisHorsForfaitUpdate(UpdateView):
     model = LigneFraisHorsForfait
     fields = ['libelle', 'date', 'montant']
     template_name = 'ligneFraisHorsForfaitEdit.html'
@@ -99,7 +99,7 @@ class LigneFraisForfaitHorsForfaitUpdate(UpdateView):
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
         form.instance.fiche = fiche
-        return super(LigneFraisForfaitHorsForfaitUpdate, self).form_valid(form)
+        return super(LigneFraisHorsForfaitUpdate, self).form_valid(form)
 
 
 class LigneFraisHorsForfaitDelete(DeleteView):

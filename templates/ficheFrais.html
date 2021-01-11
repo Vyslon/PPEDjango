@@ -120,7 +120,7 @@
                                                 <div class="control">
                                                     <input type="radio" name="lignefraishorsforfait"
                                                            data-url-edit="{% url 'edit-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}"
-                                                           data-url-suppr="{% url 'edit-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
+                                                           data-url-suppr="{% url 'suppr-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
                                                 </div>
                                             </td>
                                             <td>{{ ligneFrais.date }}</td>

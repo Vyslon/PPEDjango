@@ -91,7 +91,7 @@ class LigneFraisForfait(AbstractLigneFrais):
         RESTAU = 'REP', _('Repas restaurant')
 
     frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None, unique=True)
-    quantite = models.PositiveIntegerField(blank=False, null=False)
+    quantite = models.PositiveIntegerField(blank=False, null=False, default=0)
 
     @property
     def total(self):

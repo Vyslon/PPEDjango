@@ -58,18 +58,6 @@ def une_fiche_frais(request, mois):
     return render(request, template, context)
 
 
-class LigneFraisForfaitCreate(CreateView):
-    model = LigneFraisForfait
-    fields = ('frais_forfait', 'quantite')
-    template_name = 'ligneFraisForfaitEdit.html'
-    extra_context = {'edit': False}
-
-    def form_valid(self, form):
-        fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
-        form.instance.fiche = fiche
-        return super(LigneFraisForfaitCreate, self).form_valid(form)
-
-
 class LigneFraisForfaitUpdate(UpdateView):
     model = LigneFraisForfait
     fields = ['quantite']

@@ -56,6 +56,19 @@ class FicheFrais(models.Model):
     def __str__(self):
         return str(self.mois) + ' ' + self.visiteur.__str__()
 
+    def save(self, *args, **kwargs):
+        is_new = True if not self.id else False
+        super(FicheFrais, self).save(*args, **kwargs)
+        if is_new:
+            lff_etape = LigneFraisForfait(fiche=self, frais_forfait=LigneFraisForfait.FraisForfait.ETAPE)
+            lff_fraiskm = LigneFraisForfait(fiche=self, frais_forfait=LigneFraisForfait.FraisForfait.FRAISKM)
+            lff_nuithotel = LigneFraisForfait(fiche=self, frais_forfait=LigneFraisForfait.FraisForfait.NUITHOTEL)
+            lff_restau = LigneFraisForfait(fiche=self, frais_forfait=LigneFraisForfait.FraisForfait.RESTAU)
+            lff_etape.save()
+            lff_fraiskm.save()
+            lff_nuithotel.save()
+            lff_restau.save()
+
 
 class AbstractLigneFrais(models.Model):
     fiche = models.ForeignKey('FicheFrais', on_delete=models.RESTRICT, default=None)
@@ -90,7 +103,7 @@ class LigneFraisForfait(AbstractLigneFrais):
         NUITHOTEL = 'NUI', _('Nuitée hôtel')
         RESTAU = 'REP', _('Repas restaurant')
 
-    frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None, unique=True)
+    frais_forfait = models.CharField(max_length=3, choices=FraisForfait.choices, default=None)
     quantite = models.PositiveIntegerField(blank=False, null=False, default=0)
 
     @property
@@ -118,3 +131,4 @@ class LigneFraisForfait(AbstractLigneFrais):
     class Meta:
         verbose_name = 'Ligne de frais'
         verbose_name_plural = 'Lignes de frais'
+        unique_together = (('fiche', 'frais_forfait'),)

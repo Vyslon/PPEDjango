@@ -62,7 +62,6 @@ class LigneFraisForfaitUpdate(UpdateView):
     model = LigneFraisForfait
     fields = ['quantite']
     template_name = 'ligneFraisForfaitEdit.html'
-    extra_context = {'edit': True}
 
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])

@@ -9,11 +9,7 @@
                         <div class="panel is-primary">
                             <div class="panel-heading">
                                 <p>
-                                    {% if edit %}
-                                        Modification de la ligne de frais
-                                    {% else %}
-                                        Nouvelle ligne de frais
-                                    {% endif %}
+                                    Modification de la ligne de frais
                                 </p>
                             </div>
                             <div class="panel-block py-4">
@@ -30,25 +26,7 @@
 
                                     <div class="field">
                                         <label class="label">Forfait</label>
-
-                                        {% if edit %}
-                                            <p>{{ lignefraisforfait.get_frais_forfait_display }}</p>
-                                        {% else %}
-                                            {% if form.frais_forfait.errors %}
-                                                <div class="control has-icons-right">
-                                                    <div class="select is-danger">
-                                                        {% render_field form.frais_forfait class="select" %}
-                                                    </div>
-                                                </div>
-                                            {% else %}
-                                                <div class="control">
-                                                    <div class="select">
-                                                        {% render_field form.frais_forfait class="select" %}
-                                                    </div>
-                                                </div>
-                                            {% endif %}
-                                        {% endif %}
-
+                                        <p>{{ lignefraisforfait.get_frais_forfait_display }}</p>
                                         {% for error in form.frais_forfait.errors %}
                                             <p class="help is-danger">{{ error }}</p>
                                         {% endfor %}
@@ -84,7 +62,7 @@
                                             <div class="field">
                                                 <div class="control">
                                                     <a href="{% url 'une-fiche' view.kwargs.mois %}"
-                                                        class="button is-dark is-fullwidth">Annuler
+                                                       class="button is-dark is-fullwidth">Annuler
                                                     </a>
                                                 </div>
                                             </div>

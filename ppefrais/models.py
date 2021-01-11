@@ -34,7 +34,7 @@ class FicheFrais(models.Model):
     montant_valide = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
     date_modif = models.DateField(null=True, default=timezone.now)
 
-    def total_frais_forfaitises(self):
+    def total_frais_forfaitaires(self):
         total = 0
         lignes_forfait = LigneFraisForfait.objects.filter(fiche_id=self.id)
         for ligne in lignes_forfait:

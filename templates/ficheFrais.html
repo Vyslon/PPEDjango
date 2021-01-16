@@ -45,7 +45,8 @@
                                 <table class="table is-hoverable">
                                     <thead>
                                     <tr>
-                                        <th></th>
+                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                            <th></th>{% endif %}
                                         <th>Libellé</th>
                                         <th>Quantité</th>
                                         <th>Montant unitaire</th>
@@ -55,16 +56,19 @@
                                     <tbody>
                                     {% for ligneFrais in lignesFraisForfait %}
                                         <tr>
-                                            <td>
-                                                <div class="control">
-                                                    <input type="radio"
-                                                           name="lignefraisforfait"
-                                                           data-url="{% url 'edit-ligne-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
-                                                </div>
-                                            </td>
+                                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                                <td>
+                                                    <div class="control">
+                                                        <input type="radio"
+                                                               name="lignefraisforfait"
+                                                               data-url="{% url 'edit-ligne-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
+                                                    </div>
+                                                </td>{% endif %}
                                             <td>{{ ligneFrais.get_frais_forfait_display }}</td>
                                             <td class="has-text-right">{{ ligneFrais.quantite }}</td>
-                                            <td class="has-text-right">{{ ligneFrais.montant_unitaire|floatformat:2 }} €</td>
+                                            <td class="has-text-right">{{ ligneFrais.montant_unitaire|floatformat:2 }}
+                                                €
+                                            </td>
                                             <td class="has-text-right">{{ ligneFrais.total|floatformat:2 }} €</td>
                                         </tr>
                                     {% endfor %}
@@ -72,22 +76,28 @@
                                     <tfoot>
                                     <tr>
                                         <td><strong>TOTAL</strong></td>
+                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                            <td></td>
+                                        {% endif %}
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_forfaitaires|floatformat:2 }} €</td>
+                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_forfaitaires|floatformat:2 }}
+                                            €
+                                        </td>
                                     </tr>
                                     </tfoot>
 
                                 </table>
                             </div>
-                            <button id="lff_modifBtn"
-                                    class="button is-link" disabled>
+                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                <button id="lff_modifBtn"
+                                        class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-edit"></i>
                                 </span>
-                                <span>Modifier la quantité</span>
-                            </button>
+                                    <span>Modifier la quantité</span>
+                                </button>
+                            {% endif %}
                         </div>
 
                         <hr>
@@ -98,7 +108,8 @@
                                 <table class="table is-hoverable">
                                     <thead>
                                     <tr>
-                                        <th></th>
+                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                            <th></th>{% endif %}
                                         <th>Date</th>
                                         <th>Libellé</th>
                                         <th>Montant</th>
@@ -107,13 +118,14 @@
                                     <tbody>
                                     {% for ligneFrais in lignesFraisHorsForfait %}
                                         <tr>
-                                            <td>
-                                                <div class="control">
-                                                    <input type="radio" name="lignefraishorsforfait"
-                                                           data-url-edit="{% url 'edit-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}"
-                                                           data-url-suppr="{% url 'suppr-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
-                                                </div>
-                                            </td>
+                                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                                <td>
+                                                    <div class="control">
+                                                        <input type="radio" name="lignefraishorsforfait"
+                                                               data-url-edit="{% url 'edit-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}"
+                                                               data-url-suppr="{% url 'suppr-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
+                                                    </div>
+                                                </td>{% endif %}
                                             <td>{{ ligneFrais.date }}</td>
                                             <td>{{ ligneFrais.libelle }}</td>
                                             <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
@@ -123,79 +135,86 @@
                                     <tfoot>
                                     <tr>
                                         <td><strong>TOTAL</strong></td>
+                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                            <td></td>
+                                        {% endif %}
                                         <td></td>
-                                        <td></td>
-                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_horsforfait|floatformat:2 }} €</td>
+                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_horsforfait|floatformat:2 }}
+                                            €
+                                        </td>
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
-                            <p class="buttons">
-                                <a href="{% url 'saisie-ligne-hors-forfait' ficheFrais.mois|date:'Ym' %}"
-                                   class="button is-link">
+                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                <p class="buttons">
+                                    <a href="{% url 'saisie-ligne-hors-forfait' ficheFrais.mois|date:'Ym' %}"
+                                       class="button is-link">
                                 <span class="icon is-small">
                                     <i class="fas fa-plus"></i>
                                 </span>
-                                    <span>Saisir nouvelle ligne</span>
-                                </a>
-                                <button id="lhf_modifBtn"
-                                        class="button is-link" disabled>
+                                        <span>Saisir nouvelle ligne</span>
+                                    </a>
+                                    <button id="lhf_modifBtn"
+                                            class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-edit"></i>
                                 </span>
-                                    <span>Modifier</span>
-                                </button>
-                                <button id="lhf_supprBtn"
-                                        class="button is-link" disabled>
+                                        <span>Modifier</span>
+                                    </button>
+                                    <button id="lhf_supprBtn"
+                                            class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-times"></i>
                                 </span>
-                                    <span>Supprimer</span>
-                                </button>
-                            </p>
+                                        <span>Supprimer</span>
+                                    </button>
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <script>
-        let selected_lff_input;
-        const lff_modifBtn = document.getElementById('lff_modifBtn');
-        let lff_inputs = document.querySelectorAll('input[name = "lignefraisforfait"]');
-        lff_inputs.forEach((input) => {
-            input.addEventListener("change", function () {
-                lff_modifBtn.disabled = false;
-                selected_lff_input = input;
+    {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+        <script>
+            let selected_lff_input;
+            const lff_modifBtn = document.getElementById('lff_modifBtn');
+            let lff_inputs = document.querySelectorAll('input[name = "lignefraisforfait"]');
+            lff_inputs.forEach((input) => {
+                input.addEventListener("change", function () {
+                    lff_modifBtn.disabled = false;
+                    selected_lff_input = input;
+                });
             });
-        });
 
-        lff_modifBtn.onclick = function () {
-            location.href = selected_lff_input.getAttribute('data-url');
-        };
+            lff_modifBtn.onclick = function () {
+                location.href = selected_lff_input.getAttribute('data-url');
+            };
 
-        let selected_lhf_input;
-        const lhf_modifBtn = document.getElementById("lhf_modifBtn");
-        const lhf_supprBtn = document.getElementById("lhf_supprBtn");
-        let lhf_inputs = document.querySelectorAll('input[name="lignefraishorsforfait"]');
-        lhf_inputs.forEach((input) => {
-            input.addEventListener("change", function () {
-                lhf_modifBtn.disabled = false;
-                lhf_supprBtn.disabled = false;
-                selected_lhf_input = input;
-            })
-        });
+            let selected_lhf_input;
+            const lhf_modifBtn = document.getElementById("lhf_modifBtn");
+            const lhf_supprBtn = document.getElementById("lhf_supprBtn");
+            let lhf_inputs = document.querySelectorAll('input[name="lignefraishorsforfait"]');
+            lhf_inputs.forEach((input) => {
+                input.addEventListener("change", function () {
+                    lhf_modifBtn.disabled = false;
+                    lhf_supprBtn.disabled = false;
+                    selected_lhf_input = input;
+                })
+            });
 
-        lhf_modifBtn.onclick = function () {
-            location.href = selected_lhf_input.getAttribute('data-url-edit');
-        }
+            lhf_modifBtn.onclick = function () {
+                location.href = selected_lhf_input.getAttribute('data-url-edit');
+            }
 
-        lhf_supprBtn.onclick = function () {
-            location.href = selected_lhf_input.getAttribute('data-url-suppr');
-        }
+            lhf_supprBtn.onclick = function () {
+                location.href = selected_lhf_input.getAttribute('data-url-suppr');
+            }
 
-    </script>
+        </script>
+    {% endif %}
 
 
 {% endblock %}

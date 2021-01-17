@@ -1,20 +1,21 @@
-from django.contrib.staticfiles import finders
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponse
+from django.http import Http404
 from django.urls import reverse
-
 from .models import FicheFrais, Visiteur, LigneFraisForfait, LigneFraisHorsForfait
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
 
-from django.template.loader import get_template
-from xhtml2pdf import pisa
 import os
 from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
 
 
 def une_fiche_frais_pdf(request, mois):
-    template_path = 'ficheFraisPdf.html'
+    template_path = 'ficheFraisPDF.html'
+
     usr = request.user
     try:
         ficheFrais = FicheFrais.objects.get(mois=mois, visiteur=usr)
@@ -29,19 +30,24 @@ def une_fiche_frais_pdf(request, mois):
         'lignesFraisForfait': lignesFrais,
         'lignesFraisHorsForfait': lignesFraisHF
     }
+
     # Create a Django response object, and specify content_type as pdf
+    if (usr.first_name and usr.last_name):
+        usrname = str(usr.id) + ' ' + usr.first_name + ' ' + usr.last_name
+    else:
+        usrname = str(usr.id) + ' ' + usr.username
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="Fiche frais {mois}-VIS{usrname}.pdf"'
     # find the template and render it.
     template = get_template(template_path)
     html = template.render(context)
 
     # create a pdf
     pisa_status = pisa.CreatePDF(
-       html, dest=response, link_callback=link_callback)
+        html, dest=response, link_callback=link_callback)
     # if error then show some funy view
     if pisa_status.err:
-       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
 
@@ -51,12 +57,11 @@ def link_callback(uri, rel):
     resources
     """
     result = finders.find(uri)
-
     if result:
         if not isinstance(result, (list, tuple)):
             result = [result]
-        result = list(os.path.realpath(path) for path in result)
-        path = result[0]
+            result = list(os.path.realpath(path) for path in result)
+            path = result[0]
     else:
         sUrl = settings.STATIC_URL  # Typically /static/
         sRoot = settings.STATIC_ROOT  # Typically /home/userX/project_static/
@@ -97,7 +102,8 @@ def fiches_frais(request):
     usr = Visiteur.objects.filter(id=request.user.id)[0]
 
     dateMinimum = str(datetime.datetime.now().year - 1) + '01'
-    ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('mois').extra(where=['mois>=%s'], params=[dateMinimum])
+    ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('mois').extra(where=['mois>=%s'],
+                                                                                params=[dateMinimum])
     nomMois = [moisEntier[int(elt.mois.strftime('%m').strip('0'))] for elt in ficheFrais]
     annee = [elt.mois.strftime('%Y') for elt in ficheFrais]
 

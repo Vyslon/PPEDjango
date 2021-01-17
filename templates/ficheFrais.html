@@ -66,8 +66,8 @@
                                                 </td>{% endif %}
                                             <td>{{ ligneFrais.get_frais_forfait_display }}</td>
                                             <td class="has-text-right">{{ ligneFrais.quantite }}</td>
-                                            <td class="has-text-right">{{ ligneFrais.montant_unitaire|floatformat:2 }}
-                                                €
+                                            <td class="has-text-right">
+                                                {{ ligneFrais.montant_unitaire|floatformat:2 }} €
                                             </td>
                                             <td class="has-text-right">{{ ligneFrais.total|floatformat:2 }} €</td>
                                         </tr>

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="hero is-light is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column" style="max-width: 524px;">
+                        <div class="panel is-primary">
+                            <div class="panel-heading">
+                                <p>
+                                    Modification de la ligne de frais
+                                </p>
+                            </div>
+                            <div class="panel-block py-4">
+                                <form class="control" method="post" novalidate>
+                                    {% csrf_token %}
+
+                                    {% load widget_tweaks %}
+
+                                    {% for error in form.non_field_errors %}
+                                        <div class="notification is-danger is-light">
+                                            <strong>{{ error }}</strong>
+                                        </div>
+                                    {% endfor %}
+
+                                    <div class="field">
+                                        <label class="label">Forfait</label>
+                                        <p>{{ lignefraisforfait.get_frais_forfait_display }}</p>
+                                        {% for error in form.frais_forfait.errors %}
+                                            <p class="help is-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Quantité</label>
+                                        {% if form.quantite.errors %}
+                                            <div class="control has-icons-right">
+                                                {% render_field form.quantite class="input is-danger" placeholder="Quantité" %}
+                                            </div>
+                                        {% else %}
+                                            <div class="control">
+                                                {% render_field form.quantite class="input" placeholder="Quantité" %}
+                                            </div>
+                                        {% endif %}
+                                        {% for error in form.quantite.errors %}
+                                            <p class="help is-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="columns is-multiline mt-6">
+                                        <div class="column">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <button type="submit"
+                                                            class="button is-fullwidth is-link">
+                                                        Valider
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <a href="{% url 'une-fiche' view.kwargs.mois %}"
+                                                       class="button is-dark is-fullwidth">Annuler
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

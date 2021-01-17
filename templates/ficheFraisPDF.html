@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="fr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        body {
+            font-family: "Times New Roman", Times, Georgia, serif;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .dark-blue {
+            color: #144485;
+        }
+
+        .light-blue {
+            color: #548fc9;
+        }
+
+        .border-bottom-grey {
+            border-bottom: 1px solid lightgrey;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        h2 {
+            font-size: 1.5em;
+        }
+
+
+        p, span {
+            font-size: 1.25em;
+        }
+
+        .pt-1 {
+            padding-top: 1em;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mb-1 {
+            padding-bottom: 1em;
+        }
+
+        .mt-0 {
+            margin-top: 0;
+        }
+
+        .mx-4 {
+            padding: 0 4em;
+        }
+
+        .is-marginless {
+            margin: 0 0;
+        }
+
+        .underlined {
+            text-decoration: underline;
+        }
+
+        #vehicules {
+            margin-left: 2em;
+        }
+
+        #vehicules td {
+            font-size: 1.10em;
+        }
+
+        #vehicules .vehicules-first-col {
+            width: 20px;
+        }
+
+        #vehicules .vehicules-second-col {
+            width: 130px;
+        }
+
+        #idfiche td {
+            font-size: 1.5em;
+        }
+
+        #idfiche .idfiche-first-col {
+            width: 90px;
+        }
+
+        #idfiche .idfiche-second-col {
+            width: 120px;
+        }
+
+        #fraisforfaitaires {
+            border-collapse: collapse;
+            font-size: 1.4em;
+        }
+
+        #fraisforfaitaires thead tr th {
+            border-bottom: 1px solid #144485;
+            border-top: 1px solid #144485;
+            border-collapse: collapse;
+        }
+
+        @page {
+            size: a4 portrait;
+
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: header_content;
+                left: 50pt; right: 50pt; top: 50pt; height: 60pt;
+            }
+            @frame main_frame {
+                -pdf-frame-content: title_content; /* Static Frame */
+                left: 50pt; right: 50pt; top: 115pt; height: 430pt;
+                -pdf-frame-border: 1;
+            }
+            @frame id_fiche_frame {
+                -pdf-frame-content: idfiche_content;
+                left: 70pt; right: 70pt; top: 185pt; height: 60pt;
+            }
+            @frame fraisforfaitaires_frame {
+                -pdf-frame-content: fraisforfaitaires_content;
+                left: 70pt; right: 70pt; top: 250pt; height: 250pt;
+                -pdf-frame-border: 1;
+            }
+            @frame content_frame {          /* Content Frame */
+                left: 70pt; right: 70pt; top: 550pt; height: 30pt;
+                -pdf-frame-border: 1;
+            }
+            @frame footer_frame {           /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt; width: 495pt; bottom: 50pt; height: 160pt;
+            }
+        }
+
+        @page pages_suivantes {
+            size: a4 portrait;
+
+            @frame content_frame {          /* Content Frame */
+                left: 70pt; right: 70pt; top: 50pt; bottom: 50pt;
+                -pdf-frame-border: 1;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div id="header_content" class="center">
+    <img src="static/img/gsb-logo.png" alt="GSB">
+</div>
+<div id="title_content">
+    <div class="center">
+        <h1 class="dark-blue pt-1 mb-0">ETAT DE FRAIS ENGAGES</h1>
+        <h2 class="light-blue italic mt-0 mb-1 border-bottom-grey" style="font-family: Helvetica,sans-serif; font-size: 13px;">
+            A retourner accompagné des justificatifs au plus tard le 10 du mois qui suit l'engagement des frais.
+        </h2>
+    </div>
+</div>
+<div id="idfiche_content">
+    <table id="idfiche">
+        <tbody>
+            <tr>
+                <td class="idfiche-first-col light-blue">Visiteur</td>
+                <td class="idfiche-second-col italic">Matricule</td>
+                <td class="underlined">{{ ficheFrais.visiteur.id }}</td>
+            </tr>
+            <tr>
+                <td class="idfiche-first-col"></td>
+                <td class="idfiche-second-col italic">Nom</td>
+                <td class="underlined">{{ ficheFrais.visiteur.first_name }} {{ ficheFrais.visiteur.last_name }}</td>
+            </tr>
+            <tr>
+                <td class="idfiche-first-col light-blue">Mois</td>
+                <td class="idfiche-second-col underlined">{{ ficheFrais.mois|date:'F Y' }}</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="fraisforfaitaires_content">
+    <table id="fraisforfaitaires">
+        <thead>
+            <tr>
+                <th>Frais forfaitaires<sup>1</sup></th>
+                <th>Quantité</th>
+                <th>Montant unitaire<sup>2</sup></th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ligneFrais in lignesFraisForfait %}
+            <tr>
+                <td>{{ ligneFrais.get_frais_forfait_display }}{% if ligneFrais.frais_forfait == 'KM' %}<sup>3</sup>{% endif %}</td>
+                <td>with two columns</td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div id="footer_content">
+    __________________________________
+    <p class="is-marginless justify">
+        <sup>1</sup> Les frais forfaitaires doivent être justifiés par une facture acquittée faisant apparaître le
+        montant de la TVA.
+        Ces documents ne sont pas à joindre à l’état de frais mais doivent être conservés pendant trois années.
+        Ils peuvent être contrôlés par le délégué régional ou le service comptable.
+    </p>
+    <p class="is-marginless">
+        <sup>2</sup> Tarifs en vigueur au 01/09/2010.
+    </p>
+    <p class="is-marginless">
+        <sup>3</sup> Prix au kilomètre selon la puissance du véhicule déclaré auprès des services comptables.
+    </p>
+    <table id="vehicules">
+        <tbody>
+            <tr>
+                <td class="vehicules-first-col">&bull;</td>
+                <td class="vehicules-second-col">Véhicule 4CV Diesel</td>
+                <td>0.52€ / Km</td>
+            </tr>
+            <tr>
+                <td class="vehicules-first-col">&bull;</td>
+                <td class="vehicules-second-col">Véhicule 5/6CV Diesel</td>
+                <td>0.58€ / Km</td>
+            </tr>
+            <tr>
+                <td class="vehicules-first-col">&bull;</td>
+                <td class="vehicules-second-col">Véhicule 4CV Essence</td>
+                <td>0.62€ / Km</td>
+            </tr>
+            <tr>
+                <td class="vehicules-first-col">&bull;</td>
+                <td class="vehicules-second-col">Véhicule 5/6CV Essence</td>
+                <td>0.67€ / Km</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="is-marginless">
+        <sup>4</sup> Tout frais « hors forfait » doit être dûment justifié par l’envoi
+        d’une facture acquittée faisant apparaître le montant de TVA.
+    </p>
+</div>
+
+
+<div class="mx-4">
+<p>Hello world</p>
+<pdf:nexttemplate name="pages_suivantes">
+
+</div>
+
+</body>
+
+</html>
+

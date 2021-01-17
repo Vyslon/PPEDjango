@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
     form = VisiteurChangeForm
 
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('nom', 'prenom', 'adresse', 'code_postal', 'ville', 'date_embauche',)}),
+        (None, {'fields': ('adresse', 'code_postal', 'ville', 'date_embauche',)}),
     )
 
 

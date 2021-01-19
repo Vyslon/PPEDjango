@@ -7,15 +7,19 @@
             font-family: "Times New Roman", Times, Georgia, serif;
         }
 
-        .center {
+        .text-center {
             text-align: center;
         }
 
-        .justify {
+        .text-justify {
             text-align: justify;
         }
 
-        .italic {
+        .text-right {
+            text-align: right;
+        }
+
+        .text-italic {
             font-style: italic;
         }
 
@@ -39,7 +43,6 @@
             font-size: 1.5em;
         }
 
-
         p, span {
             font-size: 1.25em;
         }
@@ -58,10 +61,6 @@
 
         .mt-0 {
             margin-top: 0;
-        }
-
-        .mx-4 {
-            padding: 0 4em;
         }
 
         .is-marginless {
@@ -100,15 +99,37 @@
             width: 120px;
         }
 
-        #fraisforfaitaires {
+        #fraisforfaitaires, #fraishorsforfait {
+            border: 0.5px solid #144485;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 5px;
+            table-layout: fixed;
             border-collapse: collapse;
             font-size: 1.4em;
         }
 
-        #fraisforfaitaires thead tr th {
-            border-bottom: 1px solid #144485;
-            border-top: 1px solid #144485;
-            border-collapse: collapse;
+        #fraisforfaitaires th, #fraishorsforfait th {
+            padding-top: 4px;
+            border: none;
+        }
+
+        #fraisforfaitaires td, #fraishorsforfait td {
+            padding-top: 4px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        #fraisforfaitaires .col1 {
+            width: 25%;
+        }
+
+        #fraisforfaitaires .col2 {
+            width: 15%;
+        }
+
+        #fraishorsforfait .col1, #fraishorsforfait .col3 {
+            width: 25%;
         }
 
         @page {
@@ -120,21 +141,27 @@
             }
             @frame main_frame {
                 -pdf-frame-content: title_content; /* Static Frame */
-                left: 50pt; right: 50pt; top: 115pt; height: 430pt;
+                left: 50pt; right: 50pt; top: 115pt; height: 435pt;
                 -pdf-frame-border: 1;
             }
             @frame id_fiche_frame {
                 -pdf-frame-content: idfiche_content;
                 left: 70pt; right: 70pt; top: 185pt; height: 60pt;
             }
+            @frame pagination_frame {
+                -pdf-frame-content: pagination_content;
+                width: 60pt; right: 70pt; top: 185pt; height: 60pt;
+            }
             @frame fraisforfaitaires_frame {
                 -pdf-frame-content: fraisforfaitaires_content;
-                left: 70pt; right: 70pt; top: 250pt; height: 250pt;
-                -pdf-frame-border: 1;
+                left: 70pt; right: 70pt; top: 250pt; height: 115pt;
             }
             @frame content_frame {          /* Content Frame */
-                left: 70pt; right: 70pt; top: 550pt; height: 30pt;
-                -pdf-frame-border: 1;
+                left: 70pt; right: 70pt; top: 370pt; height: 180pt;
+            }
+            @frame signature_frame {
+                -pdf-frame-content: signature_content;
+                left: 70pt; right: 70pt; top: 565pt; height: 30pt;
             }
             @frame footer_frame {           /* Another static Frame */
                 -pdf-frame-content: footer_content;
@@ -144,9 +171,26 @@
 
         @page pages_suivantes {
             size: a4 portrait;
-
+            @frame header_frame {           /* Static Frame */
+                -pdf-frame-content: header_content;
+                left: 50pt; right: 50pt; top: 50pt; height: 60pt;
+            }
+            @frame main_frame {
+                -pdf-frame-content: title_content; /* Static Frame */
+                left: 50pt; right: 50pt; top: 115pt; height: 435pt;
+                -pdf-frame-border: 1;
+            }
+            @frame id_fiche_frame {
+                -pdf-frame-content: idfiche_content;
+                left: 70pt; right: 70pt; top: 185pt; height: 60pt;
+            }
+            @frame pagination_frame {
+                -pdf-frame-content: pagination_content;
+                width: 60pt; right: 70pt; top: 185pt; height: 60pt;
+            }
             @frame content_frame {          /* Content Frame */
-                left: 70pt; right: 70pt; top: 50pt; bottom: 50pt;
+                left: 50pt; right: 50pt; top: 270pt; bottom: 50pt;
+                margin: 0pt;
                 -pdf-frame-border: 1;
             }
         }
@@ -156,13 +200,13 @@
 
 <body>
 
-<div id="header_content" class="center">
+<div id="header_content" class="text-center">
     <img src="static/img/gsb-logo.png" alt="GSB">
 </div>
 <div id="title_content">
-    <div class="center">
+    <div class="text-center">
         <h1 class="dark-blue pt-1 mb-0">ETAT DE FRAIS ENGAGES</h1>
-        <h2 class="light-blue italic mt-0 mb-1 border-bottom-grey" style="font-family: Helvetica,sans-serif; font-size: 13px;">
+        <h2 class="light-blue text-italic mt-0 mb-1 border-bottom-grey" style="font-family: Helvetica,sans-serif; font-size: 13px;">
             A retourner accompagné des justificatifs au plus tard le 10 du mois qui suit l'engagement des frais.
         </h2>
     </div>
@@ -172,12 +216,12 @@
         <tbody>
             <tr>
                 <td class="idfiche-first-col light-blue">Visiteur</td>
-                <td class="idfiche-second-col italic">Matricule</td>
+                <td class="idfiche-second-col text-italic">Matricule</td>
                 <td class="underlined">{{ ficheFrais.visiteur.id }}</td>
             </tr>
             <tr>
                 <td class="idfiche-first-col"></td>
-                <td class="idfiche-second-col italic">Nom</td>
+                <td class="idfiche-second-col text-italic">Nom</td>
                 <td class="underlined">{{ ficheFrais.visiteur.first_name }} {{ ficheFrais.visiteur.last_name }}</td>
             </tr>
             <tr>
@@ -188,31 +232,37 @@
         </tbody>
     </table>
 </div>
+<div id="pagination_content">
+   <strong style="font-size: 1.25em">- PAGE <pdf:pagenumber> / <pdf:pagecount> -</strong>
+</div>
 <div id="fraisforfaitaires_content">
     <table id="fraisforfaitaires">
         <thead>
             <tr>
-                <th>Frais forfaitaires<sup>1</sup></th>
-                <th>Quantité</th>
-                <th>Montant unitaire<sup>2</sup></th>
-                <th>Total</th>
+                <th class="dark-blue text-italic">Frais forfaitaires<sup>1</sup></th>
+                <th class="dark-blue text-italic">Quantité</th>
+                <th class="dark-blue text-italic">Montant unitaire<sup>2</sup></th>
+                <th class="dark-blue text-italic">Total</th>
             </tr>
         </thead>
         <tbody>
         {% for ligneFrais in lignesFraisForfait %}
             <tr>
-                <td>{{ ligneFrais.get_frais_forfait_display }}{% if ligneFrais.frais_forfait == 'KM' %}<sup>3</sup>{% endif %}</td>
-                <td>with two columns</td>
-                <td></td>
-                <td></td>
+                <td class="col1">{{ ligneFrais.get_frais_forfait_display }}{% if ligneFrais.frais_forfait == 'KM' %}<sup>3</sup>{% endif %}</td>
+                <td class="col2">{{ ligneFrais.quantite }}</td>
+                <td class="col3">{{ ligneFrais.montant_unitaire|floatformat:2 }} €</td>
+                <td class="col4">{{ ligneFrais.total|floatformat:2 }} €</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
+<div id="signature_content">
+    <h2 class="dark-blue text-italic text-right">Signature</h2>
+</div>
 <div id="footer_content">
     __________________________________
-    <p class="is-marginless justify">
+    <p class="is-marginless text-justify">
         <sup>1</sup> Les frais forfaitaires doivent être justifiés par une facture acquittée faisant apparaître le
         montant de la TVA.
         Ces documents ne sont pas à joindre à l’état de frais mais doivent être conservés pendant trois années.
@@ -253,14 +303,37 @@
         d’une facture acquittée faisant apparaître le montant de TVA.
     </p>
 </div>
-
-
-<div class="mx-4">
-<p>Hello world</p>
-<pdf:nexttemplate name="pages_suivantes">
-
-</div>
-
+<!-- DYNAMIC CONTENT -->
+<h2 repeat="1" class="is-marginless text-center dark-blue text-italic">Autres frais<sup>4</sup></h2>
+<table repeat="1" id="fraishorsforfait">
+        <thead>
+            <tr>
+                <th class="dark-blue text-italic">Date</th>
+                <th class="dark-blue text-italic">Libellé</th>
+                <th class="dark-blue text-italic">Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if lignesFraisHorsForfait.count <= 5 %}
+            {% for ligneFrais in lignesFraisHorsForfait %}
+                <tr>
+                    <td class="col1">{{ ligneFrais.date }}</td>
+                    <td class="col2">{{ ligneFrais.libelle }}</td>
+                    <td class="col3">{{ ligneFrais.montant|floatformat:2 }} €</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            {% for ligneFrais in lignesFraisHorsForfait %}
+                {% if forloop.counter == 6 %}<pdf:nexttemplate name="pages_suivantes"/>{% endif %}
+                <tr>
+                    <td class="col1">{{ ligneFrais.date }}</td>
+                    <td class="col2">{{ ligneFrais.libelle }}</td>
+                    <td class="col3">{{ ligneFrais.montant|floatformat:2 }} €</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        </tbody>
+    </table>
 </body>
 
 </html>

@@ -1,6 +1,9 @@
+from django.forms import ModelForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.urls import reverse
+
+from .forms import LigneFraisHorsForfaitForm
 from .models import FicheFrais, Visiteur, LigneFraisForfait, LigneFraisHorsForfait
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
@@ -148,10 +151,14 @@ class LigneFraisForfaitUpdate(UpdateView):
 
 
 class LigneFraisHorsForfaitCreate(CreateView):
-    model = LigneFraisHorsForfait
-    fields = ['libelle', 'date', 'montant']
+    form_class = LigneFraisHorsForfaitForm
     template_name = 'ligneFraisHorsForfaitEdit.html'
     extra_context = {'edit': False}
+
+    def get_form_kwargs(self):
+        kwargs = super(LigneFraisHorsForfaitCreate, self).get_form_kwargs()
+        kwargs['mois'] = self.kwargs['mois']
+        return kwargs
 
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
@@ -161,9 +168,14 @@ class LigneFraisHorsForfaitCreate(CreateView):
 
 class LigneFraisHorsForfaitUpdate(UpdateView):
     model = LigneFraisHorsForfait
-    fields = ['libelle', 'date', 'montant']
+    form_class = LigneFraisHorsForfaitForm
     template_name = 'ligneFraisHorsForfaitEdit.html'
     extra_context = {'edit': True}
+
+    def get_form_kwargs(self):
+        kwargs = super(LigneFraisHorsForfaitUpdate, self).get_form_kwargs()
+        kwargs['mois'] = self.kwargs['mois']
+        return kwargs
 
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])

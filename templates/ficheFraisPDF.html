@@ -177,21 +177,28 @@
             }
             @frame main_frame {
                 -pdf-frame-content: title_content; /* Static Frame */
-                left: 50pt; right: 50pt; top: 115pt; height: 435pt;
+                left: 50pt; right: 50pt; top: 115pt; bottom: 140pt;
                 -pdf-frame-border: 1;
             }
             @frame id_fiche_frame {
                 -pdf-frame-content: idfiche_content;
                 left: 70pt; right: 70pt; top: 185pt; height: 60pt;
             }
+            @frame autresfraistitle_frame {
+                -pdf-frame-content: autresfraistitle_content;
+                left: 70pt; right: 70pt; top: 250pt; height: 20pt;
+            }
             @frame pagination_frame {
                 -pdf-frame-content: pagination_content;
                 width: 60pt; right: 70pt; top: 185pt; height: 60pt;
             }
             @frame content_frame {          /* Content Frame */
-                left: 50pt; right: 50pt; top: 270pt; bottom: 50pt;
+                left: 70pt; right: 70pt; top: 270pt; bottom: 150pt;
                 margin: 0pt;
-                -pdf-frame-border: 1;
+            }
+            @frame signature_frame {
+                -pdf-frame-content: signature_content;
+                left: 70pt; right: 70pt; bottom: 95pt; height: 30pt;
             }
         }
 
@@ -304,7 +311,7 @@
     </p>
 </div>
 <!-- DYNAMIC CONTENT -->
-<h2 repeat="1" class="is-marginless text-center dark-blue text-italic">Autres frais<sup>4</sup></h2>
+<h2 class="is-marginless text-center dark-blue text-italic">Autres frais<sup>4</sup></h2>
 <table repeat="1" id="fraishorsforfait">
         <thead>
             <tr>
@@ -334,6 +341,9 @@
         {% endif %}
         </tbody>
     </table>
+<div id="autresfraistitle_content">
+    <h2 class="is-marginless text-center dark-blue text-italic">Autres frais (suite)</h2>
+</div>
 </body>
 
 </html>

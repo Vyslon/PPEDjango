@@ -106,7 +106,7 @@ def fiches_frais(request):
     usr = Visiteur.objects.filter(id=request.user.id)[0]
 
     dateMinimum = str(datetime.datetime.now().year - 1) + '01'
-    ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('mois').extra(where=['mois>=%s'],
+    ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('-mois').extra(where=['mois>=%s'],
                                                                                 params=[dateMinimum])
     nomMois = [moisEntier[int(elt.mois.strftime('%m').strip('0'))] for elt in ficheFrais]
     annee = [elt.mois.strftime('%Y') for elt in ficheFrais]

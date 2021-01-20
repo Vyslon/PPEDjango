@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.urls import reverse
 from .models import FicheFrais, Visiteur, LigneFraisForfait, LigneFraisHorsForfait
@@ -22,33 +22,37 @@ def une_fiche_frais_pdf(request, mois):
     except:
         raise Http404("Pas de fiche de frais correspondante")
 
-    lignesFrais = LigneFraisForfait.objects.filter(fiche=ficheFrais)
-    lignesFraisHF = LigneFraisHorsForfait.objects.filter(fiche=ficheFrais)
+    if ficheFrais.etat == ficheFrais.Etat.ENCOURS:
+        return redirect(reverse('une-fiche', args=[mois]))
 
-    context = {
-        'ficheFrais': ficheFrais,
-        'lignesFraisForfait': lignesFrais,
-        'lignesFraisHorsForfait': lignesFraisHF
-    }
-
-    # Create a Django response object, and specify content_type as pdf
-    if (usr.first_name and usr.last_name):
-        usrname = str(usr.id) + ' ' + usr.first_name + ' ' + usr.last_name
     else:
-        usrname = str(usr.id) + ' ' + usr.username
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="Fiche frais {mois}-VIS{usrname}.pdf"'
-    # find the template and render it.
-    template = get_template(template_path)
-    html = template.render(context)
+        lignesFrais = LigneFraisForfait.objects.filter(fiche=ficheFrais)
+        lignesFraisHF = LigneFraisHorsForfait.objects.filter(fiche=ficheFrais)
 
-    # create a pdf
-    pisa_status = pisa.CreatePDF(
-        html, dest=response, link_callback=link_callback)
-    # if error then show some funy view
-    if pisa_status.err:
-        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-    return response
+        context = {
+            'ficheFrais': ficheFrais,
+            'lignesFraisForfait': lignesFrais,
+            'lignesFraisHorsForfait': lignesFraisHF
+        }
+
+        # Create a Django response object, and specify content_type as pdf
+        if usr.first_name and usr.last_name:
+            usrname = str(usr.id) + ' ' + usr.first_name + ' ' + usr.last_name
+        else:
+            usrname = str(usr.id) + ' ' + usr.username
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename="Fiche frais {mois}-VIS{usrname}.pdf"'
+        # find the template and render it.
+        template = get_template(template_path)
+        html = template.render(context)
+
+        # create a pdf
+        pisa_status = pisa.CreatePDF(
+            html, dest=response, link_callback=link_callback)
+        # if error then show some funy view
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response
 
 
 def link_callback(uri, rel):

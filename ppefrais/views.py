@@ -1,4 +1,5 @@
-from django.forms import ModelForm
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.urls import reverse
@@ -199,4 +200,8 @@ class FicheFraisCreate(CreateView):
 
     def form_valid(self, form):
         form.instance.visiteur = self.request.user
-        return super(FicheFraisCreate, self).form_valid(form)
+        try:
+            return super(FicheFraisCreate, self).form_valid(form)
+        except IntegrityError:
+            form.add_error(None, 'Vous avez déjà créé une fiche pour ce mois.')
+            return self.form_invalid(form)

@@ -14,22 +14,30 @@
                 <div class="columns is-centered">
                     <div class="column" style="max-width: 720px;">
                         <div>
-                            <div class="level">
-                                <div class="level-left">
-                                    <div class="level-item">
-                                        <h1 class="title is-3">Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}</h1>
-                                    </div>
-                                    <div class="level-item">
-                                        <a href="{% url 'une-fiche-pdf' ficheFrais.mois %}"
-                                           class="button is-primary">
+                            {% if ficheFrais.etat != ficheFrais.Etat.ENCOURS %}
+                                <div class="level">
+                                    <div class="level-left">
+                                        <div class="level-item">
+                                            <h1 class="title is-3">
+                                                Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}
+                                            </h1>
+                                        </div>
+                                        <div class="level-item">
+                                            <a href="{% url 'une-fiche-pdf' ficheFrais.mois %}"
+                                               class="button is-primary">
                                             <span class="icon is-small">
                                                 <i class="fas fa-file-pdf"></i>
                                             </span>
-                                            <span>PDF</span>
-                                        </a>
+                                                <span>PDF</span>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% else %}
+                                <h1 class="title is-3">
+                                    Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}
+                                </h1>
+                            {% endif %}
                             <div class="table-container">
                                 <table class="table">
                                     <tr>

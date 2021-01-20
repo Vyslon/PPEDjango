@@ -14,7 +14,22 @@
                 <div class="columns is-centered">
                     <div class="column" style="max-width: 720px;">
                         <div>
-                            <h1 class="title is-3">Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}</h1>
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="title is-3">Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}</h1>
+                                    </div>
+                                    <div class="level-item">
+                                        <a href="{% url 'une-fiche-pdf' ficheFrais.mois %}"
+                                           class="button is-primary">
+                                            <span class="icon is-small">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </span>
+                                            <span>PDF</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="table-container">
                                 <table class="table">
                                     <tr>
@@ -40,7 +55,7 @@
                         <hr>
 
                         <div class="my-3">
-                            <h1 class="title is-3">Frais forfaitaires</h1>
+                            <h2 class="title is-4">Frais forfaitaires</h2>
                             <div class="table-container">
                                 <table class="table is-hoverable">
                                     <thead>
@@ -103,7 +118,7 @@
                         <hr>
 
                         <div class="my-3">
-                            <h2 class="title is-3">Autres frais</h2>
+                            <h2 class="title is-4">Autres frais</h2>
                             <div class="table-container">
                                 <table class="table is-hoverable">
                                     <thead>

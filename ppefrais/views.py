@@ -1,6 +1,10 @@
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.urls import reverse
+
+from .forms import LigneFraisHorsForfaitForm
 from .models import FicheFrais, Visiteur, LigneFraisForfait, LigneFraisHorsForfait
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import datetime
@@ -106,7 +110,7 @@ def fiches_frais(request):
     usr = Visiteur.objects.filter(id=request.user.id)[0]
 
     dateMinimum = str(datetime.datetime.now().year - 1) + '01'
-    ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('mois').extra(where=['mois>=%s'],
+    ficheFrais = FicheFrais.objects.filter(visiteur=usr).order_by('-mois').extra(where=['mois>=%s'],
                                                                                 params=[dateMinimum])
     nomMois = [moisEntier[int(elt.mois.strftime('%m').strip('0'))] for elt in ficheFrais]
     annee = [elt.mois.strftime('%Y') for elt in ficheFrais]
@@ -156,10 +160,14 @@ class LigneFraisForfaitUpdate(UpdateView):
 
 
 class LigneFraisHorsForfaitCreate(CreateView):
-    model = LigneFraisHorsForfait
-    fields = ['libelle', 'date', 'montant']
+    form_class = LigneFraisHorsForfaitForm
     template_name = 'ligneFraisHorsForfaitEdit.html'
     extra_context = {'edit': False}
+
+    def get_form_kwargs(self):
+        kwargs = super(LigneFraisHorsForfaitCreate, self).get_form_kwargs()
+        kwargs['mois'] = self.kwargs['mois']
+        return kwargs
 
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
@@ -169,9 +177,14 @@ class LigneFraisHorsForfaitCreate(CreateView):
 
 class LigneFraisHorsForfaitUpdate(UpdateView):
     model = LigneFraisHorsForfait
-    fields = ['libelle', 'date', 'montant']
+    form_class = LigneFraisHorsForfaitForm
     template_name = 'ligneFraisHorsForfaitEdit.html'
     extra_context = {'edit': True}
+
+    def get_form_kwargs(self):
+        kwargs = super(LigneFraisHorsForfaitUpdate, self).get_form_kwargs()
+        kwargs['mois'] = self.kwargs['mois']
+        return kwargs
 
     def form_valid(self, form):
         fiche = get_object_or_404(FicheFrais, mois=self.kwargs['mois'])
@@ -195,4 +208,8 @@ class FicheFraisCreate(CreateView):
 
     def form_valid(self, form):
         form.instance.visiteur = self.request.user
-        return super(FicheFraisCreate, self).form_valid(form)
+        try:
+            return super(FicheFraisCreate, self).form_valid(form)
+        except IntegrityError:
+            form.add_error(None, 'Vous avez déjà créé une fiche pour ce mois.')
+            return self.form_invalid(form)

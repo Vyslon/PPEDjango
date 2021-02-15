@@ -8,193 +8,191 @@
 
     </style>
 
-    <section class="hero is-light is-fullheight-with-navbar">
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns is-centered">
-                    <div class="column" style="max-width: 720px;">
-                        <div>
-                            {% if ficheFrais.etat != ficheFrais.Etat.ENCOURS %}
-                                <div class="level">
-                                    <div class="level-left">
-                                        <div class="level-item">
-                                            <h1 class="title is-3">
-                                                Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}
-                                            </h1>
-                                        </div>
-                                        <div class="level-item">
-                                            <a href="{% url 'une-fiche-pdf' ficheFrais.mois %}"
-                                               class="button is-primary">
+    <section class="section">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column" style="max-width: 720px;">
+                    <div>
+                        {% if ficheFrais.etat != ficheFrais.Etat.ENCOURS %}
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <h1 class="title is-3">
+                                            Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}
+                                        </h1>
+                                    </div>
+                                    <div class="level-item">
+                                        <a href="{% url 'une-fiche-pdf' ficheFrais.mois %}"
+                                           class="button is-primary">
                                             <span class="icon is-small">
                                                 <i class="fas fa-file-pdf"></i>
                                             </span>
-                                                <span>PDF</span>
-                                            </a>
-                                        </div>
+                                            <span>PDF</span>
+                                        </a>
                                     </div>
                                 </div>
-                            {% else %}
-                                <h1 class="title is-3">
-                                    Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}
-                                </h1>
-                            {% endif %}
-                            <div class="table-container">
-                                <table class="table">
-                                    <tr>
-                                        <td>État</td>
-                                        <td>{{ ficheFrais.get_etat_display }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Date de la dernière modification</td>
-                                        <td>{{ ficheFrais.date_modif }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre de justificatifs</td>
-                                        <td>{{ ficheFrais.nb_justificatifs }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Montant validé</td>
-                                        <td>{{ ficheFrais.montant_valide|floatformat:2 }} €</td>
-                                    </tr>
-                                </table>
                             </div>
+                        {% else %}
+                            <h1 class="title is-3">
+                                Fiche de frais - {{ ficheFrais.mois|date:'F Y' }}
+                            </h1>
+                        {% endif %}
+                        <div class="table-container">
+                            <table class="table">
+                                <tr>
+                                    <td>État</td>
+                                    <td>{{ ficheFrais.get_etat_display }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Date de la dernière modification</td>
+                                    <td>{{ ficheFrais.date_modif }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Nombre de justificatifs</td>
+                                    <td>{{ ficheFrais.nb_justificatifs }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Montant validé</td>
+                                    <td>{{ ficheFrais.montant_valide|floatformat:2 }} €</td>
+                                </tr>
+                            </table>
                         </div>
+                    </div>
 
-                        <hr>
+                    <hr>
 
-                        <div class="my-3">
-                            <h2 class="title is-4">Frais forfaitaires</h2>
-                            <div class="table-container">
-                                <table class="table is-hoverable">
-                                    <thead>
+                    <div class="my-3">
+                        <h2 class="title is-4">Frais forfaitaires</h2>
+                        <div class="table-container">
+                            <table class="table is-hoverable">
+                                <thead>
+                                <tr>
+                                    {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                        <th></th>{% endif %}
+                                    <th>Libellé</th>
+                                    <th>Quantité</th>
+                                    <th>Montant unitaire</th>
+                                    <th>Sous-total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for ligneFrais in lignesFraisForfait %}
                                     <tr>
                                         {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                            <th></th>{% endif %}
-                                        <th>Libellé</th>
-                                        <th>Quantité</th>
-                                        <th>Montant unitaire</th>
-                                        <th>Sous-total</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for ligneFrais in lignesFraisForfait %}
-                                        <tr>
-                                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                                <td>
-                                                    <div class="control">
-                                                        <input type="radio"
-                                                               name="lignefraisforfait"
-                                                               data-url="{% url 'edit-ligne-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
-                                                    </div>
-                                                </td>{% endif %}
-                                            <td>{{ ligneFrais.get_frais_forfait_display }}</td>
-                                            <td class="has-text-right">{{ ligneFrais.quantite }}</td>
-                                            <td class="has-text-right">
-                                                {{ ligneFrais.montant_unitaire|floatformat:2 }} €
-                                            </td>
-                                            <td class="has-text-right">{{ ligneFrais.total|floatformat:2 }} €</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td><strong>TOTAL</strong></td>
-                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                            <td></td>
-                                        {% endif %}
-                                        <td></td>
-                                        <td></td>
-                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_forfaitaires|floatformat:2 }}
-                                            €
+                                            <td>
+                                                <div class="control">
+                                                    <input type="radio"
+                                                           name="lignefraisforfait"
+                                                           data-url="{% url 'edit-ligne-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
+                                                </div>
+                                            </td>{% endif %}
+                                        <td>{{ ligneFrais.get_frais_forfait_display }}</td>
+                                        <td class="has-text-right">{{ ligneFrais.quantite }}</td>
+                                        <td class="has-text-right">
+                                            {{ ligneFrais.montant_unitaire|floatformat:2 }} €
                                         </td>
+                                        <td class="has-text-right">{{ ligneFrais.total|floatformat:2 }} €</td>
                                     </tr>
-                                    </tfoot>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td><strong>TOTAL</strong></td>
+                                    {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                        <td></td>
+                                    {% endif %}
+                                    <td></td>
+                                    <td></td>
+                                    <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_forfaitaires|floatformat:2 }}
+                                        €
+                                    </td>
+                                </tr>
+                                </tfoot>
 
-                                </table>
-                            </div>
-                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                <button id="lff_modifBtn"
+                            </table>
+                        </div>
+                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                            <button id="lff_modifBtn"
+                                    class="button is-link" disabled>
+                                <span class="icon is-small">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                <span>Modifier la quantité</span>
+                            </button>
+                        {% endif %}
+                    </div>
+
+                    <hr>
+
+                    <div class="my-3">
+                        <h2 class="title is-4">Autres frais</h2>
+                        <div class="table-container">
+                            <table class="table is-hoverable">
+                                <thead>
+                                <tr>
+                                    {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                        <th></th>{% endif %}
+                                    <th>Date</th>
+                                    <th>Libellé</th>
+                                    <th>Montant</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for ligneFrais in lignesFraisHorsForfait %}
+                                    <tr>
+                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                            <td>
+                                                <div class="control">
+                                                    <input type="radio" name="lignefraishorsforfait"
+                                                           data-url-edit="{% url 'edit-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}"
+                                                           data-url-suppr="{% url 'suppr-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
+                                                </div>
+                                            </td>{% endif %}
+                                        <td>{{ ligneFrais.date }}</td>
+                                        <td>{{ ligneFrais.libelle }}</td>
+                                        <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td><strong>TOTAL</strong></td>
+                                    {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                                        <td></td>
+                                    {% endif %}
+                                    <td></td>
+                                    <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_horsforfait|floatformat:2 }}
+                                        €
+                                    </td>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
+                            <p class="buttons">
+                                <a href="{% url 'saisie-ligne-hors-forfait' ficheFrais.mois|date:'Ym' %}"
+                                   class="button is-link">
+                                <span class="icon is-small">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                                    <span>Saisir nouvelle ligne</span>
+                                </a>
+                                <button id="lhf_modifBtn"
                                         class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-edit"></i>
                                 </span>
-                                    <span>Modifier la quantité</span>
+                                    <span>Modifier</span>
                                 </button>
-                            {% endif %}
-                        </div>
-
-                        <hr>
-
-                        <div class="my-3">
-                            <h2 class="title is-4">Autres frais</h2>
-                            <div class="table-container">
-                                <table class="table is-hoverable">
-                                    <thead>
-                                    <tr>
-                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                            <th></th>{% endif %}
-                                        <th>Date</th>
-                                        <th>Libellé</th>
-                                        <th>Montant</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for ligneFrais in lignesFraisHorsForfait %}
-                                        <tr>
-                                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                                <td>
-                                                    <div class="control">
-                                                        <input type="radio" name="lignefraishorsforfait"
-                                                               data-url-edit="{% url 'edit-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}"
-                                                               data-url-suppr="{% url 'suppr-ligne-hors-forfait' ficheFrais.mois|date:'Ym' ligneFrais.id %}">
-                                                    </div>
-                                                </td>{% endif %}
-                                            <td>{{ ligneFrais.date }}</td>
-                                            <td>{{ ligneFrais.libelle }}</td>
-                                            <td class="has-text-right">{{ ligneFrais.montant|floatformat:2 }} €</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td><strong>TOTAL</strong></td>
-                                        {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                            <td></td>
-                                        {% endif %}
-                                        <td></td>
-                                        <td class="has-text-right has-text-weight-bold">{{ ficheFrais.total_frais_horsforfait|floatformat:2 }}
-                                            €
-                                        </td>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            {% if ficheFrais.etat == ficheFrais.Etat.ENCOURS %}
-                                <p class="buttons">
-                                    <a href="{% url 'saisie-ligne-hors-forfait' ficheFrais.mois|date:'Ym' %}"
-                                       class="button is-link">
-                                <span class="icon is-small">
-                                    <i class="fas fa-plus"></i>
-                                </span>
-                                        <span>Saisir nouvelle ligne</span>
-                                    </a>
-                                    <button id="lhf_modifBtn"
-                                            class="button is-link" disabled>
-                                <span class="icon is-small">
-                                    <i class="fas fa-edit"></i>
-                                </span>
-                                        <span>Modifier</span>
-                                    </button>
-                                    <button id="lhf_supprBtn"
-                                            class="button is-link" disabled>
+                                <button id="lhf_supprBtn"
+                                        class="button is-link" disabled>
                                 <span class="icon is-small">
                                     <i class="fas fa-times"></i>
                                 </span>
-                                        <span>Supprimer</span>
-                                    </button>
-                                </p>
-                            {% endif %}
-                        </div>
+                                    <span>Supprimer</span>
+                                </button>
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
